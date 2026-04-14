@@ -8,41 +8,63 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Practice Timer">
 <meta name="theme-color" content="#534AB7">
+<link rel="apple-touch-icon" id="appIcon">
 <title>Practice Timer</title>
+<script>
+(function(){
+  const c = document.createElement('canvas');
+  c.width = c.height = 512;
+  const ctx = c.getContext('2d');
+  const r = 112;
+  ctx.beginPath();
+  ctx.moveTo(r, 0);
+  ctx.lineTo(512-r, 0);
+  ctx.quadraticCurveTo(512, 0, 512, r);
+  ctx.lineTo(512, 512-r);
+  ctx.quadraticCurveTo(512, 512, 512-r, 512);
+  ctx.lineTo(r, 512);
+  ctx.quadraticCurveTo(0, 512, 0, 512-r);
+  ctx.lineTo(0, r);
+  ctx.quadraticCurveTo(0, 0, r, 0);
+  ctx.fillStyle = '#534AB7';
+  ctx.fill();
+  ctx.font = '300px serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('🎵', 256, 276);
+  const png = c.toDataURL('image/png');
+  document.getElementById('appIcon').href = png;
+  const manifest = {
+    name: 'Practice Timer',
+    short_name: 'Practice',
+    start_url: '.',
+    display: 'standalone',
+    background_color: '#534AB7',
+    theme_color: '#534AB7',
+    icons: [{ src: png, sizes: '512x512', type: 'image/png' }]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/manifest+json'});
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = URL.createObjectURL(blob);
+  document.head.appendChild(link);
+})();
+</script>
 <style>
   :root {
-    --purple: #534AB7;
-    --purple-dark: #3C3489;
-    --purple-light: #EEEDFE;
-    --purple-text: #3C3489;
-    --teal: #1D9E75;
-    --teal-light: #E1F5EE;
-    --teal-text: #085041;
-    --amber: #EF9F27;
-    --amber-light: #FAEEDA;
-    --amber-text: #633806;
-    --coral: #D85A30;
-    --coral-light: #FAECE7;
-    --coral-text: #712B13;
-    --gray: #888780;
-    --gray-light: #F1EFE8;
-    --bg: #ffffff;
-    --bg2: #f5f5f3;
-    --bg3: #eeede9;
-    --text: #1a1a18;
-    --text2: #6b6b67;
-    --text3: #9e9e9a;
-    --border: rgba(0,0,0,0.12);
-    --border2: rgba(0,0,0,0.22);
-    --radius: 10px;
-    --radius-lg: 14px;
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --purple: #534AB7; --purple-dark: #3C3489; --purple-light: #EEEDFE; --purple-text: #3C3489;
+    --teal: #1D9E75; --teal-light: #E1F5EE; --teal-text: #085041;
+    --amber: #EF9F27; --amber-light: #FAEEDA; --amber-text: #633806;
+    --coral: #D85A30; --coral-light: #FAECE7; --coral-text: #712B13;
+    --gray: #888780; --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeede9;
+    --text: #1a1a18; --text2: #6b6b67; --text3: #9e9e9a;
+    --border: rgba(0,0,0,0.12); --radius: 10px; --radius-lg: 14px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #1c1c1e; --bg2: #2c2c2e; --bg3: #3a3a3c;
       --text: #f2f2f0; --text2: #aeaea8; --text3: #6e6e68;
-      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
+      --border: rgba(255,255,255,0.1);
       --purple-light: #2a2654; --purple-text: #AFA9EC;
       --teal-light: #0d3326; --teal-text: #5DCAA5;
       --amber-light: #3a2a0a; --amber-text: #FAC775;
@@ -51,63 +73,71 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; overflow: hidden; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg); color: var(--text);
-    display: flex; flex-direction: column;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
 
-  .topbar {
-    background: var(--purple);
-    color: white;
-    padding: 12px 16px;
-    padding-top: calc(12px + env(safe-area-inset-top, 0px));
-    display: flex; align-items: center; gap: 10px;
-    flex-shrink: 0;
-  }
+  .topbar { background: var(--purple); color: white; padding: 12px 16px; padding-top: calc(12px + env(safe-area-inset-top,0px)); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
   .topbar-icon { font-size: 20px; }
   .topbar-title { font-size: 17px; font-weight: 600; flex: 1; }
   .topbar-sub { font-size: 12px; opacity: .75; }
 
-  .scroll-area {
-    flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
-    padding: 14px 14px calc(14px + var(--safe-bottom));
-  }
+  .scroll-area { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 14px 14px calc(14px + env(safe-area-inset-bottom,0px)); }
 
   .section { margin-bottom: 16px; }
-
   .label { font-size: 12px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
 
-  .instr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .instr-card {
-    border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 10px 6px; text-align: center; cursor: pointer;
-    background: var(--bg); transition: all .15s; user-select: none;
-  }
+  .instr-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+  .instr-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 6px; text-align: center; cursor: pointer; background: var(--bg); user-select: none; transition: all .15s; }
   .instr-card:active { transform: scale(0.96); }
   .instr-card.active { background: var(--purple-light); border-color: var(--purple); }
-  .instr-icon { font-size: 24px; line-height: 1; margin-bottom: 4px; }
+  .instr-icon { font-size: 24px; line-height: 1; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; height: 28px; }
+  .instr-icon svg { color: var(--text2); }
+  .instr-card.active .instr-icon svg { color: var(--purple); }
   .instr-name { font-size: 11px; color: var(--text2); font-weight: 500; line-height: 1.2; }
   .instr-card.active .instr-name { color: var(--purple-text); }
   .instr-hint { font-size: 10px; color: var(--text3); margin-top: 2px; line-height: 1.2; }
   .instr-card.active .instr-hint { color: var(--purple); }
 
-  input[type=text] {
-    width: 100%; border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 11px 13px; font-size: 15px; color: var(--text);
-    background: var(--bg); outline: none; transition: border .15s;
-  }
+  input[type=text] { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 13px; font-size: 15px; color: var(--text); background: var(--bg); outline: none; transition: border .15s; }
   input[type=text]:focus { border-color: var(--purple); }
 
-  .state-card {
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px;
+  .sens-card { background: var(--bg2); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px; }
+  .sens-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .sens-title { font-size: 13px; font-weight: 500; color: var(--text); }
+  .sens-badge { font-size: 12px; font-weight: 600; color: var(--purple); background: var(--purple-light); padding: 3px 10px; border-radius: 20px; }
+  .sens-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text3); margin-top: 6px; }
+
+  input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 4px; border-radius: 2px; outline: none; cursor: pointer;
+    background: var(--bg3);
   }
-  .badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12px; font-weight: 600; padding: 5px 12px;
-    border-radius: 20px; margin-bottom: 12px;
+  input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--purple); border: 3px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    margin-top: -10px;
   }
+  input[type=range]::-moz-range-thumb {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--purple); border: 3px solid white;
+  }
+
+  .meter-wrap { margin-bottom: 14px; }
+  .meter-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 5px; }
+  .meter-bar { height: 10px; background: var(--bg3); border-radius: 5px; overflow: hidden; position: relative; }
+  .meter-fill { height: 100%; width: 0%; border-radius: 5px; background: var(--gray); transition: width .07s; }
+  .meter-fill.loud { background: var(--teal); }
+  .meter-threshold { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--coral); border-radius: 1px; pointer-events: none; }
+
+  .mic-btn { width: 100%; padding: 16px; background: var(--purple); color: white; border: none; border-radius: var(--radius-lg); font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; user-select: none; transition: all .15s; }
+  .mic-btn:active { transform: scale(0.98); background: var(--purple-dark); }
+  .mic-btn.active { background: #A32D2D; }
+  .mic-btn.active:active { background: #791F1F; }
+
+  .state-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; }
   .badge .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
   .badge-idle { background: var(--bg2); color: var(--text2); }
   .badge-idle .dot { background: var(--gray); }
@@ -130,66 +160,57 @@
   .countdown { text-align: center; font-size: 13px; color: var(--text2); min-height: 18px; }
   .countdown-accent { font-weight: 600; color: var(--purple); }
 
-  .meter-wrap { margin-bottom: 14px; }
-  .meter-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 5px; }
-  .meter-bar { height: 10px; background: var(--bg3); border-radius: 5px; overflow: hidden; position: relative; }
-  .meter-fill { height: 100%; width: 0%; border-radius: 5px; background: var(--gray); transition: width .07s; }
-  .meter-fill.loud { background: var(--teal); }
-  .meter-threshold { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--coral); border-radius: 1px; }
-
-  .mic-btn {
-    width: 100%; padding: 16px; background: var(--purple); color: white;
-    border: none; border-radius: var(--radius-lg); font-size: 16px;
-    font-weight: 600; cursor: pointer; transition: all .15s;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    margin-bottom: 14px; user-select: none;
-  }
-  .mic-btn:active { transform: scale(0.98); background: var(--purple-dark); }
-  .mic-btn.active { background: #A32D2D; }
-  .mic-btn.active:active { background: #791F1F; }
-  .mic-btn-icon { font-size: 20px; }
-
-  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 14px; }
   .stat-box { background: var(--bg2); border-radius: var(--radius); padding: 11px 6px; text-align: center; }
   .stat-val { font-size: 18px; font-weight: 600; color: var(--text); }
   .stat-lbl { font-size: 10px; color: var(--text3); margin-top: 2px; }
 
   .sessions-lbl { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
-  .session-item {
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 11px 13px;
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 6px;
-  }
+  .session-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 13px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
   .session-name { font-size: 13px; color: var(--text); font-weight: 500; }
   .session-meta { font-size: 11px; color: var(--text3); margin-top: 1px; }
   .session-dur { font-size: 14px; font-weight: 600; color: var(--purple); white-space: nowrap; margin-left: 10px; }
   .empty-state { text-align: center; padding: 20px; color: var(--text3); font-size: 13px; line-height: 1.6; }
-
-  .install-banner {
-    background: var(--purple-light); border: 1px solid var(--purple);
-    border-radius: var(--radius); padding: 12px 14px; margin-bottom: 14px;
-    font-size: 12px; color: var(--purple-text); line-height: 1.5; display: none;
-  }
-  .install-banner strong { display: block; margin-bottom: 3px; font-size: 13px; }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <span class="topbar-icon">🎵</span>
-  <div>
+  <div style="flex:1">
     <div class="topbar-title">Practice Timer</div>
-    <div class="topbar-sub">Rilevamento audio per strumento</div>
+    <div class="topbar-sub">Misura il tuo tempo di studio reale</div>
+  </div>
+  <div style="font-size:10px;opacity:.7;font-style:italic;white-space:nowrap;margin-right:10px">gli strumenti di suonARte</div>
+  <button onclick="document.getElementById('infoModal').style.display='flex'" style="background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.6);color:white;border-radius:50%;width:26px;height:26px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;line-height:1">i</button>
+</div>
+
+<div id="infoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--bg);border-radius:var(--radius-lg);padding:20px;max-width:360px;width:100%;max-height:80vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <span style="font-size:16px;font-weight:600;color:var(--text)">Come funziona</span>
+      <button onclick="document.getElementById('infoModal').style.display='none'" style="background:var(--bg2);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;cursor:pointer;color:var(--text2);display:flex;align-items:center;justify-content:center">&times;</button>
+    </div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.7">
+      <p style="margin-bottom:10px">🎙 <b style="color:var(--text)">Rilevamento automatico</b><br>Il microfono ascolta in continuazione. Quando suoni, il timer della pratica avanza. Le pause brevi (meno di 30 secondi) vengono conteggiate come pratica — il timer non si ferma tra una nota e l'altra.</p>
+      <p style="margin-bottom:10px">⏸ <b style="color:var(--text)">Pausa lunga</b><br>Se smetti di suonare per più di 30 secondi, l'app entra in modalità pausa. Il timer pratica si ferma e inizia a contare le pause lunghe.</p>
+      <p style="margin-bottom:10px">▶️ <b style="color:var(--text)">Ripresa automatica</b><br>Quando riprendi a suonare, l'app aspetta 4 secondi per confermare che hai davvero ricominciato, poi riprende il timer pratica.</p>
+      <p style="margin-bottom:10px">🎻 <b style="color:var(--text)">Profili per strumento</b><br>Ogni strumento usa un profilo audio ottimizzato: gamma di frequenze, soglia e sensibilità sono calibrati per riconoscere meglio il suono specifico.</p>
+      <p style="margin-bottom:10px">🎚 <b style="color:var(--text)">Sensibilità</b><br>Usa lo slider per adattare la soglia all'ambiente. In una stanza silenziosa usa Alta, in un ambiente rumoroso usa Bassa. La linea rossa sulla barra mostra la soglia in tempo reale.</p>
+      <p style="margin-bottom:14px">📲 <b style="color:var(--text)">Installazione come app</b><br>Questa è una PWA (Progressive Web App): puoi installarla sulla schermata home del telefono come un'app normale.<br><br><b>Android:</b> menu ⋮ → "Aggiungi a schermata Home"<br><b>iPhone:</b> condividi ⬆ → "Aggiungi a schermata Home"</p>
+      <button onclick="document.getElementById('infoModal').style.display='none'" style="width:100%;padding:12px;background:var(--purple);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer">Ho capito</button>
+    </div>
   </div>
 </div>
 
 <div class="scroll-area">
 
-  <div class="install-banner" id="installBanner">
-    <strong>💡 Installa come app</strong>
-    Su Android: menu ⋮ → "Aggiungi a schermata Home"<br>
-    Su iPhone: condividi → "Aggiungi a schermata Home"
+
+  <div id="installBanner" style="background:var(--purple-light);border:1px solid var(--purple);border-radius:var(--radius);padding:10px 13px;margin-bottom:14px;font-size:12px;color:var(--purple-text);line-height:1.6;display:none">
+    <div style="font-weight:600;margin-bottom:3px">&#128242; Installa come app</div>
+    <div><b>Android:</b> menu &#8942; &rarr; &ldquo;Aggiungi a schermata Home&rdquo;</div>
+    <div><b>iPhone:</b> condividi &#11014; &rarr; &ldquo;Aggiungi a schermata Home&rdquo;</div>
+    <div style="margin-top:6px;text-align:right"><span onclick="document.getElementById('installBanner').style.display='none'" style="font-size:11px;opacity:.7;cursor:pointer">Chiudi &times;</span></div>
   </div>
 
   <div class="section">
@@ -202,17 +223,26 @@
     <input type="text" id="exerciseInput" placeholder="es. scale, brano, improvvisazione">
   </div>
 
+  <div class="sens-card">
+    <div class="sens-header">
+      <span class="sens-title">Sensibilità microfono</span>
+      <span class="sens-badge" id="sensLabel">Media</span>
+    </div>
+    <input type="range" id="sensSlider" min="1" max="5" step="1" value="3" oninput="onSensChange(this.value)">
+    <div class="sens-labels"><span>Bassa</span><span>Media</span><span>Alta</span></div>
+  </div>
+
   <div class="meter-wrap">
-    <div class="meter-meta"><span>Livello audio</span><span id="meterPct">0%</span></div>
+    <div class="meter-meta"><span>Livello audio rilevato</span><span id="meterPct">0%</span></div>
     <div class="meter-bar">
       <div class="meter-fill" id="meterFill"></div>
       <div class="meter-threshold" id="meterThreshold"></div>
     </div>
-    <div style="font-size:10px;color:var(--text3);margin-top:3px;text-align:right">La linea rossa è la soglia dello strumento</div>
+    <div style="font-size:10px;color:var(--text3);margin-top:3px;text-align:right">La linea rossa è la soglia di attivazione</div>
   </div>
 
   <button class="mic-btn" id="micBtn" onclick="toggleMic()">
-    <span class="mic-btn-icon">🎙</span><span id="micBtnText">Avvia ascolto</span>
+    <span style="font-size:20px">🎙</span><span id="micBtnText">Avvia ascolto</span>
   </button>
 
   <div class="state-card">
@@ -223,7 +253,7 @@
         <div class="timer-val practice" id="practiceDisplay">00:00:00</div>
       </div>
       <div class="timer-block">
-        <div class="timer-lbl">Pause totali</div>
+        <div class="timer-lbl">Pause lunghe</div>
         <div class="timer-val break" id="breakDisplay">00:00:00</div>
       </div>
     </div>
@@ -246,15 +276,20 @@ const SILENCE_THRESHOLD_SEC = 30;
 const CONFIRM_PLAY_SEC = 4;
 
 const INSTRUMENTS = [
-  { id:'flauto',   name:'Flauto',    icon:'🪈', hint:'500–4000 Hz', freqMin:500,  freqMax:4000, scoreThreshold:18, smoothing:.70 },
-  { id:'violino',  name:'Violino',   icon:'🎻', hint:'200–6000 Hz', freqMin:200,  freqMax:6000, scoreThreshold:14, smoothing:.65 },
-  { id:'piano',    name:'Pianoforte',icon:'🎹', hint:'80–5000 Hz',  freqMin:80,   freqMax:5000, scoreThreshold:16, smoothing:.50 },
-  { id:'chitarra', name:'Chitarra',  icon:'🎸', hint:'80–3000 Hz',  freqMin:80,   freqMax:3000, scoreThreshold:15, smoothing:.60 },
-  { id:'tromba',   name:'Tromba',    icon:'🎺', hint:'200–3500 Hz', freqMin:200,  freqMax:3500, scoreThreshold:20, smoothing:.55 },
-  { id:'batteria', name:'Batteria',  icon:'🥁', hint:'60–8000 Hz',  freqMin:60,   freqMax:8000, scoreThreshold:22, smoothing:.30 }
+  { id:'flauto',   name:'Flauto',     icon:'<svg viewBox="0 0 40 24" width="28" height="17" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle"><rect x="1" y="10" width="38" height="4" rx="2" fill="currentColor"/><ellipse cx="5" cy="12" rx="3.2" ry="4.5" fill="currentColor" opacity="0.85"/><circle cx="13" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="19" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="25" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="31" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="13" cy="14.8" r="1" fill="var(--bg)" opacity="0.6"/></svg>', hint:'500–4000 Hz', freqMin:500, freqMax:4000, baseThreshold:18, smoothing:.70 },
+  { id:'violino',  name:'Violino',    icon:'🎻', hint:'200–6000 Hz', freqMin:200, freqMax:6000, baseThreshold:14, smoothing:.65 },
+  { id:'piano',    name:'Pianoforte', icon:'🎹', hint:'80–5000 Hz',  freqMin:80,  freqMax:5000, baseThreshold:16, smoothing:.50 },
+  { id:'chitarra', name:'Chitarra',   icon:'🎸', hint:'80–3000 Hz',  freqMin:80,  freqMax:3000, baseThreshold:15, smoothing:.60 },
+  { id:'tromba',   name:'Tromba',     icon:'🎺', hint:'200–3500 Hz', freqMin:200, freqMax:3500, baseThreshold:20, smoothing:.55 },
+  { id:'batteria', name:'Batteria',   icon:'🥁', hint:'60–8000 Hz',  freqMin:60,  freqMax:8000, baseThreshold:22, smoothing:.30 }
 ];
 
+// Sensibilità 1=molto bassa (soglia alta) … 5=molto alta (soglia bassa)
+const SENS_MULT   = { 1:1.8, 2:1.35, 3:1.0, 4:0.65, 5:0.35 };
+const SENS_LABELS = { 1:'Molto bassa', 2:'Bassa', 3:'Media', 4:'Alta', 5:'Molto alta' };
+
 let activeInstrument = INSTRUMENTS[0];
+let sensitivityLevel = 3;
 let sessions = [];
 try { sessions = JSON.parse(localStorage.getItem('ptimer_sessions') || '[]'); } catch(e){}
 
@@ -265,12 +300,22 @@ let practiceSeconds=0, breakSeconds=0;
 let silenceSince=null, confirmingStart=null;
 let tickInterval=null, smoothScore=0;
 
+function getThreshold() {
+  return activeInstrument.baseThreshold * SENS_MULT[sensitivityLevel];
+}
+
+function onSensChange(val) {
+  sensitivityLevel = parseInt(val);
+  document.getElementById('sensLabel').textContent = SENS_LABELS[sensitivityLevel];
+  updateThreshMarker();
+}
+
 function buildGrid() {
   const g = document.getElementById('instrGrid');
   g.innerHTML = '';
   INSTRUMENTS.forEach(ins => {
     const c = document.createElement('div');
-    c.className = 'instr-card' + (ins.id===activeInstrument.id?' active':'');
+    c.className = 'instr-card'+(ins.id===activeInstrument.id?' active':'');
     c.innerHTML = `<div class="instr-icon">${ins.icon}</div><div class="instr-name">${ins.name}</div><div class="instr-hint">${ins.hint}</div>`;
     c.onclick = () => { if(!micActive){ activeInstrument=ins; buildGrid(); updateThreshMarker(); } };
     g.appendChild(c);
@@ -278,7 +323,7 @@ function buildGrid() {
 }
 
 function updateThreshMarker() {
-  const pct = Math.min(97, (activeInstrument.scoreThreshold/60)*100);
+  const pct = Math.min(97, (getThreshold()/60)*100);
   document.getElementById('meterThreshold').style.left = pct.toFixed(1)+'%';
 }
 
@@ -294,25 +339,24 @@ function fmtShort(s) {
 function setState(s) {
   state=s;
   const badge=document.getElementById('stateBadge');
-  const txt=document.getElementById('stateText');
   badge.className='badge';
   const map={
-    idle:['badge-idle','In attesa'],
-    playing:['badge-playing','Sta suonando'],
-    silence:['badge-silence','Silenzio...'],
-    break:['badge-break','In pausa'],
-    confirming:['badge-confirming','Ripresa rilevata...']
+    idle:       ['badge-idle','In attesa'],
+    playing:    ['badge-playing','Sta suonando'],
+    silence:    ['badge-silence','Silenzio breve...'],
+    break:      ['badge-break','In pausa'],
+    confirming: ['badge-confirming','Ripresa rilevata...']
   };
   const [cls,label]=map[s]||map.idle;
   badge.classList.add(cls);
-  txt.textContent=label;
+  document.getElementById('stateText').textContent=label;
 }
 
 function updateCountdown() {
   const el=document.getElementById('countdownRow');
   if(state==='silence'&&silenceSince!==null){
     const rem=Math.max(0,SILENCE_THRESHOLD_SEC-(Date.now()-silenceSince)/1000);
-    el.innerHTML=`Pausa tra <span class="countdown-accent">${Math.ceil(rem)}s</span>`;
+    el.innerHTML=`Pausa lunga tra <span class="countdown-accent">${Math.ceil(rem)}s</span>`;
   } else if(state==='confirming'&&confirmingStart!==null){
     const rem=Math.max(0,CONFIRM_PLAY_SEC-(Date.now()-confirmingStart)/1000);
     el.innerHTML=`Riprendo tra <span class="countdown-accent">${Math.ceil(rem)}s</span>`;
@@ -324,7 +368,7 @@ function updateCountdown() {
 }
 
 function tick() {
-  if(state==='playing') practiceSeconds++;
+  if(state==='playing'||state==='silence') practiceSeconds++;
   if(state==='break') breakSeconds++;
   document.getElementById('practiceDisplay').textContent=fmt(practiceSeconds);
   document.getElementById('breakDisplay').textContent=fmt(breakSeconds);
@@ -357,9 +401,7 @@ function getScore(data, sampleRate) {
 async function toggleMic() {
   if(micActive){stopMic();return;}
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false
-    });
+    const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false});
     micStream=stream;
     audioCtx=new(window.AudioContext||window.webkitAudioContext)();
     analyser=audioCtx.createAnalyser();
@@ -374,7 +416,7 @@ async function toggleMic() {
     tickInterval=setInterval(tick,1000);
     loopAudio();
   } catch(e) {
-    alert('Impossibile accedere al microfono.\n\nAssicurati di aver dato il permesso al browser e che nessun altra app stia usando il microfono.');
+    alert('Impossibile accedere al microfono.\n\nAssicurati di aver dato il permesso al browser.');
   }
 }
 
@@ -409,7 +451,7 @@ function loopAudio() {
   analyser.getByteFrequencyData(buf);
   const raw=getScore(buf,audioCtx.sampleRate);
   smoothScore=smoothScore*.75+raw*.25;
-  const thr=activeInstrument.scoreThreshold;
+  const thr=getThreshold();
   const pct=Math.min(100,Math.round((smoothScore/60)*100));
   const loud=smoothScore>thr;
   const fill=document.getElementById('meterFill');
@@ -459,7 +501,10 @@ function renderSessions() {
   }).join('');
 }
 
-setTimeout(()=>{ document.getElementById('installBanner').style.display='block'; },2000);
+onSensChange(3);
+if(window.navigator.standalone !== true && window.matchMedia("(display-mode: standalone)").matches === false){
+  setTimeout(()=>{ document.getElementById("installBanner").style.display="block"; }, 1000);
+}
 buildGrid(); updateThreshMarker(); updateStats(); renderSessions();
 </script>
 </body>
