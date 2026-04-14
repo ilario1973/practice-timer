@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Practice Timer">
+<meta name="theme-color" content="#534AB7">
+<title>Practice Timer</title>
+<style>
+  :root {
+    --purple: #534AB7;
+    --purple-dark: #3C3489;
+    --purple-light: #EEEDFE;
+    --purple-text: #3C3489;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --teal-text: #085041;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --amber-text: #633806;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --coral-text: #712B13;
+    --gray: #888780;
+    --gray-light: #F1EFE8;
+    --bg: #ffffff;
+    --bg2: #f5f5f3;
+    --bg3: #eeede9;
+    --text: #1a1a18;
+    --text2: #6b6b67;
+    --text3: #9e9e9a;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --radius: 10px;
+    --radius-lg: 14px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e; --bg2: #2c2c2e; --bg3: #3a3a3c;
+      --text: #f2f2f0; --text2: #aeaea8; --text3: #6e6e68;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
+      --purple-light: #2a2654; --purple-text: #AFA9EC;
+      --teal-light: #0d3326; --teal-text: #5DCAA5;
+      --amber-light: #3a2a0a; --amber-text: #FAC775;
+      --coral-light: #3a1a0a; --coral-text: #F0997B;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--text);
+    display: flex; flex-direction: column;
+  }
+
+  .topbar {
+    background: var(--purple);
+    color: white;
+    padding: 12px 16px;
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0;
+  }
+  .topbar-icon { font-size: 20px; }
+  .topbar-title { font-size: 17px; font-weight: 600; flex: 1; }
+  .topbar-sub { font-size: 12px; opacity: .75; }
+
+  .scroll-area {
+    flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    padding: 14px 14px calc(14px + var(--safe-bottom));
+  }
+
+  .section { margin-bottom: 16px; }
+
+  .label { font-size: 12px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+
+  .instr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .instr-card {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 10px 6px; text-align: center; cursor: pointer;
+    background: var(--bg); transition: all .15s; user-select: none;
+  }
+  .instr-card:active { transform: scale(0.96); }
+  .instr-card.active { background: var(--purple-light); border-color: var(--purple); }
+  .instr-icon { font-size: 24px; line-height: 1; margin-bottom: 4px; }
+  .instr-name { font-size: 11px; color: var(--text2); font-weight: 500; line-height: 1.2; }
+  .instr-card.active .instr-name { color: var(--purple-text); }
+  .instr-hint { font-size: 10px; color: var(--text3); margin-top: 2px; line-height: 1.2; }
+  .instr-card.active .instr-hint { color: var(--purple); }
+
+  input[type=text] {
+    width: 100%; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 11px 13px; font-size: 15px; color: var(--text);
+    background: var(--bg); outline: none; transition: border .15s;
+  }
+  input[type=text]:focus { border-color: var(--purple); }
+
+  .state-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px;
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; padding: 5px 12px;
+    border-radius: 20px; margin-bottom: 12px;
+  }
+  .badge .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .badge-idle { background: var(--bg2); color: var(--text2); }
+  .badge-idle .dot { background: var(--gray); }
+  .badge-playing { background: var(--teal-light); color: var(--teal-text); }
+  .badge-playing .dot { background: var(--teal); animation: pulse 1s infinite; }
+  .badge-silence { background: var(--amber-light); color: var(--amber-text); }
+  .badge-silence .dot { background: var(--amber); animation: pulse 1.5s infinite; }
+  .badge-break { background: var(--coral-light); color: var(--coral-text); }
+  .badge-break .dot { background: var(--coral); }
+  .badge-confirming { background: var(--purple-light); color: var(--purple-text); }
+  .badge-confirming .dot { background: var(--purple); animation: pulse .6s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+  .timers-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .timer-block { text-align: center; background: var(--bg2); border-radius: var(--radius); padding: 12px 8px; }
+  .timer-lbl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; }
+  .timer-val { font-size: 32px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -1px; line-height: 1; }
+  .timer-val.practice { color: var(--purple); }
+  .timer-val.break { color: var(--coral); }
+  .countdown { text-align: center; font-size: 13px; color: var(--text2); min-height: 18px; }
+  .countdown-accent { font-weight: 600; color: var(--purple); }
+
+  .meter-wrap { margin-bottom: 14px; }
+  .meter-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 5px; }
+  .meter-bar { height: 10px; background: var(--bg3); border-radius: 5px; overflow: hidden; position: relative; }
+  .meter-fill { height: 100%; width: 0%; border-radius: 5px; background: var(--gray); transition: width .07s; }
+  .meter-fill.loud { background: var(--teal); }
+  .meter-threshold { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--coral); border-radius: 1px; }
+
+  .mic-btn {
+    width: 100%; padding: 16px; background: var(--purple); color: white;
+    border: none; border-radius: var(--radius-lg); font-size: 16px;
+    font-weight: 600; cursor: pointer; transition: all .15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 14px; user-select: none;
+  }
+  .mic-btn:active { transform: scale(0.98); background: var(--purple-dark); }
+  .mic-btn.active { background: #A32D2D; }
+  .mic-btn.active:active { background: #791F1F; }
+  .mic-btn-icon { font-size: 20px; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .stat-box { background: var(--bg2); border-radius: var(--radius); padding: 11px 6px; text-align: center; }
+  .stat-val { font-size: 18px; font-weight: 600; color: var(--text); }
+  .stat-lbl { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+  .sessions-lbl { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
+  .session-item {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 11px 13px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .session-name { font-size: 13px; color: var(--text); font-weight: 500; }
+  .session-meta { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .session-dur { font-size: 14px; font-weight: 600; color: var(--purple); white-space: nowrap; margin-left: 10px; }
+  .empty-state { text-align: center; padding: 20px; color: var(--text3); font-size: 13px; line-height: 1.6; }
+
+  .install-banner {
+    background: var(--purple-light); border: 1px solid var(--purple);
+    border-radius: var(--radius); padding: 12px 14px; margin-bottom: 14px;
+    font-size: 12px; color: var(--purple-text); line-height: 1.5; display: none;
+  }
+  .install-banner strong { display: block; margin-bottom: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-icon">🎵</span>
+  <div>
+    <div class="topbar-title">Practice Timer</div>
+    <div class="topbar-sub">Rilevamento audio per strumento</div>
+  </div>
+</div>
+
+<div class="scroll-area">
+
+  <div class="install-banner" id="installBanner">
+    <strong>💡 Installa come app</strong>
+    Su Android: menu ⋮ → "Aggiungi a schermata Home"<br>
+    Su iPhone: condividi → "Aggiungi a schermata Home"
+  </div>
+
+  <div class="section">
+    <div class="label">Strumento</div>
+    <div class="instr-grid" id="instrGrid"></div>
+  </div>
+
+  <div class="section">
+    <div class="label">Cosa stai esercitando</div>
+    <input type="text" id="exerciseInput" placeholder="es. scale, brano, improvvisazione">
+  </div>
+
+  <div class="meter-wrap">
+    <div class="meter-meta"><span>Livello audio</span><span id="meterPct">0%</span></div>
+    <div class="meter-bar">
+      <div class="meter-fill" id="meterFill"></div>
+      <div class="meter-threshold" id="meterThreshold"></div>
+    </div>
+    <div style="font-size:10px;color:var(--text3);margin-top:3px;text-align:right">La linea rossa è la soglia dello strumento</div>
+  </div>
+
+  <button class="mic-btn" id="micBtn" onclick="toggleMic()">
+    <span class="mic-btn-icon">🎙</span><span id="micBtnText">Avvia ascolto</span>
+  </button>
+
+  <div class="state-card">
+    <div class="badge badge-idle" id="stateBadge"><div class="dot"></div><span id="stateText">In attesa</span></div>
+    <div class="timers-row">
+      <div class="timer-block">
+        <div class="timer-lbl">Pratica effettiva</div>
+        <div class="timer-val practice" id="practiceDisplay">00:00:00</div>
+      </div>
+      <div class="timer-block">
+        <div class="timer-lbl">Pause totali</div>
+        <div class="timer-val break" id="breakDisplay">00:00:00</div>
+      </div>
+    </div>
+    <div class="countdown" id="countdownRow"></div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-box"><div class="stat-val" id="statToday">0m</div><div class="stat-lbl">Oggi</div></div>
+    <div class="stat-box"><div class="stat-val" id="statSessions">0</div><div class="stat-lbl">Sessioni</div></div>
+    <div class="stat-box"><div class="stat-val" id="statDays">0🔥</div><div class="stat-lbl">Giorni</div></div>
+  </div>
+
+  <div class="sessions-lbl">Sessioni recenti</div>
+  <div id="sessionList"></div>
+
+</div>
+
+<script>
+const SILENCE_THRESHOLD_SEC = 30;
+const CONFIRM_PLAY_SEC = 4;
+
+const INSTRUMENTS = [
+  { id:'flauto',   name:'Flauto',    icon:'🪈', hint:'500–4000 Hz', freqMin:500,  freqMax:4000, scoreThreshold:18, smoothing:.70 },
+  { id:'violino',  name:'Violino',   icon:'🎻', hint:'200–6000 Hz', freqMin:200,  freqMax:6000, scoreThreshold:14, smoothing:.65 },
+  { id:'piano',    name:'Pianoforte',icon:'🎹', hint:'80–5000 Hz',  freqMin:80,   freqMax:5000, scoreThreshold:16, smoothing:.50 },
+  { id:'chitarra', name:'Chitarra',  icon:'🎸', hint:'80–3000 Hz',  freqMin:80,   freqMax:3000, scoreThreshold:15, smoothing:.60 },
+  { id:'tromba',   name:'Tromba',    icon:'🎺', hint:'200–3500 Hz', freqMin:200,  freqMax:3500, scoreThreshold:20, smoothing:.55 },
+  { id:'batteria', name:'Batteria',  icon:'🥁', hint:'60–8000 Hz',  freqMin:60,   freqMax:8000, scoreThreshold:22, smoothing:.30 }
+];
+
+let activeInstrument = INSTRUMENTS[0];
+let sessions = [];
+try { sessions = JSON.parse(localStorage.getItem('ptimer_sessions') || '[]'); } catch(e){}
+
+let audioCtx=null, analyser=null, micStream=null;
+let micActive=false, animFrame=null;
+let state='idle';
+let practiceSeconds=0, breakSeconds=0;
+let silenceSince=null, confirmingStart=null;
+let tickInterval=null, smoothScore=0;
+
+function buildGrid() {
+  const g = document.getElementById('instrGrid');
+  g.innerHTML = '';
+  INSTRUMENTS.forEach(ins => {
+    const c = document.createElement('div');
+    c.className = 'instr-card' + (ins.id===activeInstrument.id?' active':'');
+    c.innerHTML = `<div class="instr-icon">${ins.icon}</div><div class="instr-name">${ins.name}</div><div class="instr-hint">${ins.hint}</div>`;
+    c.onclick = () => { if(!micActive){ activeInstrument=ins; buildGrid(); updateThreshMarker(); } };
+    g.appendChild(c);
+  });
+}
+
+function updateThreshMarker() {
+  const pct = Math.min(97, (activeInstrument.scoreThreshold/60)*100);
+  document.getElementById('meterThreshold').style.left = pct.toFixed(1)+'%';
+}
+
+function fmt(s) {
+  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+}
+function fmtShort(s) {
+  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);
+  return h>0?`${h}h ${m}m`:`${m}m`;
+}
+
+function setState(s) {
+  state=s;
+  const badge=document.getElementById('stateBadge');
+  const txt=document.getElementById('stateText');
+  badge.className='badge';
+  const map={
+    idle:['badge-idle','In attesa'],
+    playing:['badge-playing','Sta suonando'],
+    silence:['badge-silence','Silenzio...'],
+    break:['badge-break','In pausa'],
+    confirming:['badge-confirming','Ripresa rilevata...']
+  };
+  const [cls,label]=map[s]||map.idle;
+  badge.classList.add(cls);
+  txt.textContent=label;
+}
+
+function updateCountdown() {
+  const el=document.getElementById('countdownRow');
+  if(state==='silence'&&silenceSince!==null){
+    const rem=Math.max(0,SILENCE_THRESHOLD_SEC-(Date.now()-silenceSince)/1000);
+    el.innerHTML=`Pausa tra <span class="countdown-accent">${Math.ceil(rem)}s</span>`;
+  } else if(state==='confirming'&&confirmingStart!==null){
+    const rem=Math.max(0,CONFIRM_PLAY_SEC-(Date.now()-confirmingStart)/1000);
+    el.innerHTML=`Riprendo tra <span class="countdown-accent">${Math.ceil(rem)}s</span>`;
+  } else if(state==='break'){
+    el.innerHTML=`Suona per <span class="countdown-accent">${CONFIRM_PLAY_SEC}s</span> per riprendere`;
+  } else {
+    el.innerHTML='';
+  }
+}
+
+function tick() {
+  if(state==='playing') practiceSeconds++;
+  if(state==='break') breakSeconds++;
+  document.getElementById('practiceDisplay').textContent=fmt(practiceSeconds);
+  document.getElementById('breakDisplay').textContent=fmt(breakSeconds);
+  updateCountdown();
+}
+
+function getScore(data, sampleRate) {
+  const ins=activeInstrument;
+  const nyquist=sampleRate/2;
+  const minBin=Math.floor(ins.freqMin/nyquist*data.length);
+  const maxBin=Math.min(data.length-1,Math.ceil(ins.freqMax/nyquist*data.length));
+  let sum=0,count=0,total=0;
+  for(let i=0;i<data.length;i++) total+=data[i];
+  for(let i=minBin;i<=maxBin;i++){sum+=data[i];count++;}
+  const bandAvg=count>0?sum/count:0;
+  const totalAvg=total/data.length;
+  const ratio=totalAvg>1?bandAvg/totalAvg:0;
+  let score=(bandAvg/255)*50*ratio;
+  if(ins.id==='piano'){
+    let peak=0; for(let i=minBin;i<=maxBin;i++) if(data[i]>peak) peak=data[i];
+    score=score*.6+(peak/255)*20;
+  }
+  if(ins.id==='batteria'){
+    let peak=0; for(let i=0;i<data.length;i++) if(data[i]>peak) peak=data[i];
+    score=(peak/255)*45;
+  }
+  return score;
+}
+
+async function toggleMic() {
+  if(micActive){stopMic();return;}
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false
+    });
+    micStream=stream;
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    analyser=audioCtx.createAnalyser();
+    analyser.fftSize=2048;
+    analyser.smoothingTimeConstant=activeInstrument.smoothing;
+    audioCtx.createMediaStreamSource(stream).connect(analyser);
+    micActive=true; practiceSeconds=0; breakSeconds=0;
+    silenceSince=null; confirmingStart=null; smoothScore=0;
+    setState('playing');
+    document.getElementById('micBtnText').textContent='Termina sessione';
+    document.getElementById('micBtn').classList.add('active');
+    tickInterval=setInterval(tick,1000);
+    loopAudio();
+  } catch(e) {
+    alert('Impossibile accedere al microfono.\n\nAssicurati di aver dato il permesso al browser e che nessun altra app stia usando il microfono.');
+  }
+}
+
+function stopMic() {
+  if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;}
+  if(audioCtx){audioCtx.close();audioCtx=null;}
+  if(animFrame){cancelAnimationFrame(animFrame);animFrame=null;}
+  if(tickInterval){clearInterval(tickInterval);tickInterval=null;}
+  micActive=false;
+  document.getElementById('micBtnText').textContent='Avvia ascolto';
+  document.getElementById('micBtn').classList.remove('active');
+  document.getElementById('meterFill').style.width='0%';
+  document.getElementById('meterFill').classList.remove('loud');
+  document.getElementById('meterPct').textContent='0%';
+  document.getElementById('countdownRow').innerHTML='';
+  if(practiceSeconds>5){
+    sessions.unshift({
+      instrument:activeInstrument.icon+' '+activeInstrument.name,
+      exercise:document.getElementById('exerciseInput').value||'Sessione libera',
+      practice:practiceSeconds, breaks:breakSeconds,
+      date:new Date().toISOString(), dateKey:new Date().toDateString()
+    });
+    if(sessions.length>50) sessions=sessions.slice(0,50);
+    try{localStorage.setItem('ptimer_sessions',JSON.stringify(sessions));}catch(e){}
+  }
+  setState('idle'); updateStats(); renderSessions();
+}
+
+function loopAudio() {
+  if(!micActive||!analyser) return;
+  const buf=new Uint8Array(analyser.frequencyBinCount);
+  analyser.getByteFrequencyData(buf);
+  const raw=getScore(buf,audioCtx.sampleRate);
+  smoothScore=smoothScore*.75+raw*.25;
+  const thr=activeInstrument.scoreThreshold;
+  const pct=Math.min(100,Math.round((smoothScore/60)*100));
+  const loud=smoothScore>thr;
+  const fill=document.getElementById('meterFill');
+  fill.style.width=pct+'%';
+  fill.classList.toggle('loud',loud);
+  document.getElementById('meterPct').textContent=pct+'%';
+  const now=Date.now();
+  if(state==='playing'){
+    if(!loud){silenceSince=now;setState('silence');}
+  } else if(state==='silence'){
+    if(loud){silenceSince=null;setState('playing');}
+    else if((now-silenceSince)/1000>=SILENCE_THRESHOLD_SEC){setState('break');silenceSince=null;}
+  } else if(state==='break'){
+    if(loud){confirmingStart=now;setState('confirming');}
+  } else if(state==='confirming'){
+    if(!loud){confirmingStart=null;setState('break');}
+    else if((now-confirmingStart)/1000>=CONFIRM_PLAY_SEC){confirmingStart=null;setState('playing');}
+  }
+  animFrame=requestAnimationFrame(loopAudio);
+}
+
+function updateStats() {
+  const today=sessions.filter(s=>s.dateKey===new Date().toDateString());
+  document.getElementById('statToday').textContent=fmtShort(today.reduce((a,s)=>a+s.practice,0))||'0m';
+  document.getElementById('statSessions').textContent=today.length;
+  document.getElementById('statDays').textContent=new Set(sessions.map(s=>s.dateKey)).size+'🔥';
+}
+
+function renderSessions() {
+  const list=document.getElementById('sessionList');
+  if(!sessions.length){
+    list.innerHTML='<div class="empty-state">Nessuna sessione ancora.<br>Scegli lo strumento e inizia a suonare!</div>';
+    return;
+  }
+  list.innerHTML=sessions.slice(0,15).map(s=>{
+    const d=new Date(s.date);
+    const isToday=d.toDateString()===new Date().toDateString();
+    const ts=d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+    const ds=isToday?`Oggi ${ts}`:d.toLocaleDateString('it-IT',{day:'numeric',month:'short'})+' '+ts;
+    return `<div class="session-item">
+      <div>
+        <div class="session-name">${s.instrument} · ${s.exercise}</div>
+        <div class="session-meta">${ds} · pause ${fmtShort(s.breaks||0)}</div>
+      </div>
+      <div class="session-dur">${fmtShort(s.practice)}</div>
+    </div>`;
+  }).join('');
+}
+
+setTimeout(()=>{ document.getElementById('installBanner').style.display='block'; },2000);
+buildGrid(); updateThreshMarker(); updateStats(); renderSessions();
+</script>
+</body>
+</html>
