@@ -12,165 +12,145 @@
 <title>Practice Timer</title>
 <script>
 (function(){
-  const c = document.createElement('canvas');
-  c.width = c.height = 512;
-  const ctx = c.getContext('2d');
-  const r = 112;
+  const c=document.createElement('canvas');
+  c.width=c.height=512;
+  const ctx=c.getContext('2d');
+  const r=112;
   ctx.beginPath();
-  ctx.moveTo(r, 0);
-  ctx.lineTo(512-r, 0);
-  ctx.quadraticCurveTo(512, 0, 512, r);
-  ctx.lineTo(512, 512-r);
-  ctx.quadraticCurveTo(512, 512, 512-r, 512);
-  ctx.lineTo(r, 512);
-  ctx.quadraticCurveTo(0, 512, 0, 512-r);
-  ctx.lineTo(0, r);
-  ctx.quadraticCurveTo(0, 0, r, 0);
-  ctx.fillStyle = '#534AB7';
-  ctx.fill();
-  ctx.font = '300px serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('🎵', 256, 276);
-  const png = c.toDataURL('image/png');
-  document.getElementById('appIcon').href = png;
-  const manifest = {
-    name: 'Practice Timer',
-    short_name: 'Practice',
-    start_url: '.',
-    display: 'standalone',
-    background_color: '#534AB7',
-    theme_color: '#534AB7',
-    icons: [{ src: png, sizes: '512x512', type: 'image/png' }]
-  };
-  const blob = new Blob([JSON.stringify(manifest)], {type:'application/manifest+json'});
-  const link = document.createElement('link');
-  link.rel = 'manifest';
-  link.href = URL.createObjectURL(blob);
+  ctx.moveTo(r,0);ctx.lineTo(512-r,0);ctx.quadraticCurveTo(512,0,512,r);
+  ctx.lineTo(512,512-r);ctx.quadraticCurveTo(512,512,512-r,512);
+  ctx.lineTo(r,512);ctx.quadraticCurveTo(0,512,0,512-r);
+  ctx.lineTo(0,r);ctx.quadraticCurveTo(0,0,r,0);
+  ctx.fillStyle='#534AB7';ctx.fill();
+  ctx.font='300px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('🎵',256,276);
+  const png=c.toDataURL('image/png');
+  document.getElementById('appIcon').href=png;
+  const manifest={name:'Practice Timer',short_name:'Practice',start_url:'.',display:'standalone',background_color:'#534AB7',theme_color:'#534AB7',icons:[{src:png,sizes:'512x512',type:'image/png'}]};
+  const blob=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'});
+  const link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(blob);
   document.head.appendChild(link);
 })();
 </script>
 <style>
   :root {
-    --purple: #534AB7; --purple-dark: #3C3489; --purple-light: #EEEDFE; --purple-text: #3C3489;
-    --teal: #1D9E75; --teal-light: #E1F5EE; --teal-text: #085041;
-    --amber: #EF9F27; --amber-light: #FAEEDA; --amber-text: #633806;
-    --coral: #D85A30; --coral-light: #FAECE7; --coral-text: #712B13;
-    --gray: #888780; --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeede9;
-    --text: #1a1a18; --text2: #6b6b67; --text3: #9e9e9a;
-    --border: rgba(0,0,0,0.12); --radius: 10px; --radius-lg: 14px;
+    --purple:#534AB7;--purple-dark:#3C3489;--purple-light:#EEEDFE;--purple-text:#3C3489;
+    --teal:#1D9E75;--teal-light:#E1F5EE;--teal-text:#085041;
+    --amber:#EF9F27;--amber-light:#FAEEDA;--amber-text:#633806;
+    --coral:#D85A30;--coral-light:#FAECE7;--coral-text:#712B13;
+    --gray:#888780;--bg:#ffffff;--bg2:#f5f5f3;--bg3:#eeede9;
+    --text:#1a1a18;--text2:#6b6b67;--text3:#9e9e9a;
+    --border:rgba(0,0,0,0.12);--radius:10px;--radius-lg:14px;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1e; --bg2: #2c2c2e; --bg3: #3a3a3c;
-      --text: #f2f2f0; --text2: #aeaea8; --text3: #6e6e68;
-      --border: rgba(255,255,255,0.1);
-      --purple-light: #2a2654; --purple-text: #AFA9EC;
-      --teal-light: #0d3326; --teal-text: #5DCAA5;
-      --amber-light: #3a2a0a; --amber-text: #FAC775;
-      --coral-light: #3a1a0a; --coral-text: #F0997B;
+  @media(prefers-color-scheme:dark){
+    :root{
+      --bg:#1c1c1e;--bg2:#2c2c2e;--bg3:#3a3a3c;
+      --text:#f2f2f0;--text2:#aeaea8;--text3:#6e6e68;
+      --border:rgba(255,255,255,0.1);
+      --purple-light:#2a2654;--purple-text:#AFA9EC;
+      --teal-light:#0d3326;--teal-text:#5DCAA5;
+      --amber-light:#3a2a0a;--amber-text:#FAC775;
+      --coral-light:#3a1a0a;--coral-text:#F0997B;
     }
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; overflow: hidden; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;overflow:hidden}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
 
-  .topbar { background: var(--purple); color: white; padding: 12px 16px; padding-top: calc(12px + env(safe-area-inset-top,0px)); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-  .topbar-icon { font-size: 20px; }
-  .topbar-title { font-size: 17px; font-weight: 600; flex: 1; }
-  .topbar-sub { font-size: 12px; opacity: .75; }
+  .topbar{background:var(--purple);color:white;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px));display:flex;align-items:center;gap:8px;flex-shrink:0}
+  .topbar-icon{font-size:20px}
+  .topbar-title{font-size:17px;font-weight:600}
+  .topbar-sub{font-size:11px;opacity:.75}
+  .topbar-brand{font-size:10px;opacity:.7;font-style:italic;white-space:nowrap;flex:1;text-align:right;margin-right:4px}
 
-  .scroll-area { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 14px 14px calc(14px + env(safe-area-inset-bottom,0px)); }
+  .lang-selector{display:flex;gap:3px;flex-shrink:0}
+  .lang-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.35);color:white;border-radius:5px;padding:3px 6px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
+  .lang-btn.active{background:rgba(255,255,255,0.35);border-color:white}
+  .info-btn{background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.6);color:white;border-radius:50%;width:26px;height:26px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 
-  .section { margin-bottom: 16px; }
-  .label { font-size: 12px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+  .scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px))}
+  .section{margin-bottom:16px}
+  .label{font-size:12px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
 
-  .instr-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
-  .instr-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 6px; text-align: center; cursor: pointer; background: var(--bg); user-select: none; transition: all .15s; }
-  .instr-card:active { transform: scale(0.96); }
-  .instr-card.active { background: var(--purple-light); border-color: var(--purple); }
-  .instr-icon { font-size: 24px; line-height: 1; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; height: 28px; }
-  .instr-icon svg { color: var(--text2); }
-  .instr-card.active .instr-icon svg { color: var(--purple); }
-  .instr-name { font-size: 11px; color: var(--text2); font-weight: 500; line-height: 1.2; }
-  .instr-card.active .instr-name { color: var(--purple-text); }
-  .instr-hint { font-size: 10px; color: var(--text3); margin-top: 2px; line-height: 1.2; }
-  .instr-card.active .instr-hint { color: var(--purple); }
+  .instr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .instr-card{border:1px solid var(--border);border-radius:var(--radius);padding:10px 6px;text-align:center;cursor:pointer;background:var(--bg);user-select:none;transition:all .15s}
+  .instr-card:active{transform:scale(0.96)}
+  .instr-card.active{background:var(--purple-light);border-color:var(--purple)}
+  .instr-icon{font-size:24px;line-height:1;margin-bottom:4px;display:flex;align-items:center;justify-content:center;height:28px}
+  .instr-icon svg{color:var(--text2)}
+  .instr-card.active .instr-icon svg{color:var(--purple)}
+  .instr-name{font-size:11px;color:var(--text2);font-weight:500;line-height:1.2}
+  .instr-card.active .instr-name{color:var(--purple-text)}
+  .instr-hint{font-size:10px;color:var(--text3);margin-top:2px;line-height:1.2}
+  .instr-card.active .instr-hint{color:var(--purple)}
 
-  input[type=text] { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 13px; font-size: 15px; color: var(--text); background: var(--bg); outline: none; transition: border .15s; }
-  input[type=text]:focus { border-color: var(--purple); }
+  input[type=text]{width:100%;border:1px solid var(--border);border-radius:var(--radius);padding:11px 13px;font-size:15px;color:var(--text);background:var(--bg);outline:none;transition:border .15s}
+  input[type=text]:focus{border-color:var(--purple)}
 
-  .sens-card { background: var(--bg2); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px; }
-  .sens-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .sens-title { font-size: 13px; font-weight: 500; color: var(--text); }
-  .sens-badge { font-size: 12px; font-weight: 600; color: var(--purple); background: var(--purple-light); padding: 3px 10px; border-radius: 20px; }
-  .sens-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text3); margin-top: 6px; }
+  .sens-card{background:var(--bg2);border-radius:var(--radius);padding:12px 14px;margin-bottom:16px}
+  .sens-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .sens-title{font-size:13px;font-weight:500;color:var(--text)}
+  .sens-badge{font-size:12px;font-weight:600;color:var(--purple);background:var(--purple-light);padding:3px 10px;border-radius:20px}
+  .sens-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:6px}
 
-  input[type=range] {
-    -webkit-appearance: none; appearance: none;
-    width: 100%; height: 4px; border-radius: 2px; outline: none; cursor: pointer;
-    background: var(--bg3);
-  }
-  input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; appearance: none;
-    width: 24px; height: 24px; border-radius: 50%;
-    background: var(--purple); border: 3px solid white;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
-    margin-top: -10px;
-  }
-  input[type=range]::-moz-range-thumb {
-    width: 24px; height: 24px; border-radius: 50%;
-    background: var(--purple); border: 3px solid white;
-  }
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;outline:none;cursor:pointer;background:var(--bg3)}
+  input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:var(--purple);border:3px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.25);margin-top:-10px}
+  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--purple);border:3px solid white}
 
-  .meter-wrap { margin-bottom: 14px; }
-  .meter-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 5px; }
-  .meter-bar { height: 10px; background: var(--bg3); border-radius: 5px; overflow: hidden; position: relative; }
-  .meter-fill { height: 100%; width: 0%; border-radius: 5px; background: var(--gray); transition: width .07s; }
-  .meter-fill.loud { background: var(--teal); }
-  .meter-threshold { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--coral); border-radius: 1px; pointer-events: none; }
+  .meter-wrap{margin-bottom:14px}
+  .meter-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px}
+  .meter-bar{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;position:relative}
+  .meter-fill{height:100%;width:0%;border-radius:5px;background:var(--gray);transition:width .07s}
+  .meter-fill.loud{background:var(--teal)}
+  .meter-threshold{position:absolute;top:0;bottom:0;width:2px;background:var(--coral);border-radius:1px;pointer-events:none}
 
-  .mic-btn { width: 100%; padding: 16px; background: var(--purple); color: white; border: none; border-radius: var(--radius-lg); font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; user-select: none; transition: all .15s; }
-  .mic-btn:active { transform: scale(0.98); background: var(--purple-dark); }
-  .mic-btn.active { background: #A32D2D; }
-  .mic-btn.active:active { background: #791F1F; }
+  .mic-btn{width:100%;padding:16px;background:var(--purple);color:white;border:none;border-radius:var(--radius-lg);font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;user-select:none;transition:all .15s}
+  .mic-btn:active{transform:scale(0.98);background:var(--purple-dark)}
+  .mic-btn.active{background:#A32D2D}
+  .mic-btn.active:active{background:#791F1F}
 
-  .state-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px; }
-  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; }
-  .badge .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-  .badge-idle { background: var(--bg2); color: var(--text2); }
-  .badge-idle .dot { background: var(--gray); }
-  .badge-playing { background: var(--teal-light); color: var(--teal-text); }
-  .badge-playing .dot { background: var(--teal); animation: pulse 1s infinite; }
-  .badge-silence { background: var(--amber-light); color: var(--amber-text); }
-  .badge-silence .dot { background: var(--amber); animation: pulse 1.5s infinite; }
-  .badge-break { background: var(--coral-light); color: var(--coral-text); }
-  .badge-break .dot { background: var(--coral); }
-  .badge-confirming { background: var(--purple-light); color: var(--purple-text); }
-  .badge-confirming .dot { background: var(--purple); animation: pulse .6s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+  .state-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:16px}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;margin-bottom:12px}
+  .badge .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  .badge-idle{background:var(--bg2);color:var(--text2)}.badge-idle .dot{background:var(--gray)}
+  .badge-playing{background:var(--teal-light);color:var(--teal-text)}.badge-playing .dot{background:var(--teal);animation:pulse 1s infinite}
+  .badge-silence{background:var(--amber-light);color:var(--amber-text)}.badge-silence .dot{background:var(--amber);animation:pulse 1.5s infinite}
+  .badge-break{background:var(--coral-light);color:var(--coral-text)}.badge-break .dot{background:var(--coral)}
+  .badge-confirming{background:var(--purple-light);color:var(--purple-text)}.badge-confirming .dot{background:var(--purple);animation:pulse .6s infinite}
+  .badge-calibrating{background:var(--amber-light);color:var(--amber-text)}.badge-calibrating .dot{background:var(--amber);animation:pulse .4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-  .timers-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-  .timer-block { text-align: center; background: var(--bg2); border-radius: var(--radius); padding: 12px 8px; }
-  .timer-lbl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; }
-  .timer-val { font-size: 32px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -1px; line-height: 1; }
-  .timer-val.practice { color: var(--purple); }
-  .timer-val.break { color: var(--coral); }
-  .countdown { text-align: center; font-size: 13px; color: var(--text2); min-height: 18px; }
-  .countdown-accent { font-weight: 600; color: var(--purple); }
+  .timers-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+  .timer-block{text-align:center;background:var(--bg2);border-radius:var(--radius);padding:12px 8px}
+  .timer-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+  .timer-val{font-size:32px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-1px;line-height:1}
+  .timer-val.practice{color:var(--purple)}
+  .timer-val.break{color:var(--coral)}
+  .countdown{text-align:center;font-size:13px;color:var(--text2);min-height:18px}
+  .countdown-accent{font-weight:600;color:var(--purple)}
 
-  .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 14px; }
-  .stat-box { background: var(--bg2); border-radius: var(--radius); padding: 11px 6px; text-align: center; }
-  .stat-val { font-size: 18px; font-weight: 600; color: var(--text); }
-  .stat-lbl { font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+  .stat-box{background:var(--bg2);border-radius:var(--radius);padding:11px 6px;text-align:center}
+  .stat-val{font-size:18px;font-weight:600;color:var(--text)}
+  .stat-lbl{font-size:10px;color:var(--text3);margin-top:2px}
 
-  .sessions-lbl { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
-  .session-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 13px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-  .session-name { font-size: 13px; color: var(--text); font-weight: 500; }
-  .session-meta { font-size: 11px; color: var(--text3); margin-top: 1px; }
-  .session-dur { font-size: 14px; font-weight: 600; color: var(--purple); white-space: nowrap; margin-left: 10px; }
-  .empty-state { text-align: center; padding: 20px; color: var(--text3); font-size: 13px; line-height: 1.6; }
+  .sessions-lbl{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px}
+  .session-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:11px 13px;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .session-name{font-size:13px;color:var(--text);font-weight:500}
+  .session-meta{font-size:11px;color:var(--text3);margin-top:1px}
+  .session-dur{font-size:14px;font-weight:600;color:var(--purple);white-space:nowrap;margin-left:10px}
+  .empty-state{text-align:center;padding:20px;color:var(--text3);font-size:13px;line-height:1.6}
+
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;padding:20px}
+  .modal-box{background:var(--bg);border-radius:var(--radius-lg);padding:20px;max-width:360px;width:100%;max-height:80vh;overflow-y:auto}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .modal-title{font-size:16px;font-weight:600;color:var(--text)}
+  .modal-close{background:var(--bg2);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;cursor:pointer;color:var(--text2);display:flex;align-items:center;justify-content:center}
+  .modal-body{font-size:13px;color:var(--text2);line-height:1.7}
+  .modal-body p{margin-bottom:10px}
+  .modal-body b{color:var(--text)}
+  .modal-ok{width:100%;padding:12px;background:var(--purple);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
 </style>
 </head>
 <body>
@@ -179,66 +159,62 @@
   <span class="topbar-icon">🎵</span>
   <div style="flex:1">
     <div class="topbar-title">Practice Timer</div>
-    <div class="topbar-sub">Misura il tuo tempo di studio reale</div>
+    <div class="topbar-sub" id="topSub">Misura il tuo tempo di studio reale</div>
   </div>
-  <div style="font-size:10px;opacity:.7;font-style:italic;white-space:nowrap;margin-right:10px">gli strumenti di suonARte</div>
-  <button onclick="document.getElementById('infoModal').style.display='flex'" style="background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.6);color:white;border-radius:50%;width:26px;height:26px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;line-height:1">i</button>
+  <div class="topbar-brand">gli strumenti di suonARte</div>
+  <div class="lang-selector">
+    <button class="lang-btn active" onclick="setLang('it')">IT</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('de')">DE</button>
+  </div>
+  <button class="info-btn" onclick="document.getElementById('infoModal').style.display='flex'">i</button>
 </div>
 
-<div id="infoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;padding:20px">
-  <div style="background:var(--bg);border-radius:var(--radius-lg);padding:20px;max-width:360px;width:100%;max-height:80vh;overflow-y:auto">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <span style="font-size:16px;font-weight:600;color:var(--text)">Come funziona</span>
-      <button onclick="document.getElementById('infoModal').style.display='none'" style="background:var(--bg2);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;cursor:pointer;color:var(--text2);display:flex;align-items:center;justify-content:center">&times;</button>
+<div id="infoModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" id="infoTitle">Come funziona</span>
+      <button class="modal-close" onclick="document.getElementById('infoModal').style.display='none'">&times;</button>
     </div>
-    <div style="font-size:13px;color:var(--text2);line-height:1.7">
-      <p style="margin-bottom:10px">🎙 <b style="color:var(--text)">Rilevamento automatico</b><br>Il microfono ascolta in continuazione. Quando suoni, il timer della pratica avanza. Le pause brevi (meno di 30 secondi) vengono conteggiate come pratica — il timer non si ferma tra una nota e l'altra.</p>
-      <p style="margin-bottom:10px">⏸ <b style="color:var(--text)">Pausa lunga</b><br>Se smetti di suonare per più di 30 secondi, l'app entra in modalità pausa. Il timer pratica si ferma e inizia a contare le pause lunghe.</p>
-      <p style="margin-bottom:10px">▶️ <b style="color:var(--text)">Ripresa automatica</b><br>Quando riprendi a suonare, l'app aspetta 4 secondi per confermare che hai davvero ricominciato, poi riprende il timer pratica.</p>
-      <p style="margin-bottom:10px">🎻 <b style="color:var(--text)">Profili per strumento</b><br>Ogni strumento usa un profilo audio ottimizzato: gamma di frequenze, soglia e sensibilità sono calibrati per riconoscere meglio il suono specifico.</p>
-      <p style="margin-bottom:10px">🎚 <b style="color:var(--text)">Sensibilità</b><br>Usa lo slider per adattare la soglia all'ambiente. In una stanza silenziosa usa Alta, in un ambiente rumoroso usa Bassa. La linea rossa sulla barra mostra la soglia in tempo reale.</p>
-      <p style="margin-bottom:14px">📲 <b style="color:var(--text)">Installazione come app</b><br>Questa è una PWA (Progressive Web App): puoi installarla sulla schermata home del telefono come un'app normale.<br><br><b>Android:</b> menu ⋮ → "Aggiungi a schermata Home"<br><b>iPhone:</b> condividi ⬆ → "Aggiungi a schermata Home"</p>
-      <button onclick="document.getElementById('infoModal').style.display='none'" style="width:100%;padding:12px;background:var(--purple);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer">Ho capito</button>
-    </div>
+    <div class="modal-body" id="infoBody"></div>
   </div>
 </div>
 
 <div class="scroll-area">
 
-
   <div id="installBanner" style="background:var(--purple-light);border:1px solid var(--purple);border-radius:var(--radius);padding:10px 13px;margin-bottom:14px;font-size:12px;color:var(--purple-text);line-height:1.6;display:none">
-    <div style="font-weight:600;margin-bottom:3px">&#128242; Installa come app</div>
-    <div><b>Android:</b> menu &#8942; &rarr; &ldquo;Aggiungi a schermata Home&rdquo;</div>
-    <div><b>iPhone:</b> condividi &#11014; &rarr; &ldquo;Aggiungi a schermata Home&rdquo;</div>
-    <div style="margin-top:6px;text-align:right"><span onclick="document.getElementById('installBanner').style.display='none'" style="font-size:11px;opacity:.7;cursor:pointer">Chiudi &times;</span></div>
+    <div style="font-weight:600;margin-bottom:3px" id="bannerTitle">&#128242; Installa come app</div>
+    <div id="bannerAndroid"><b>Android:</b> menu &#8942; &rarr; &ldquo;Aggiungi a schermata Home&rdquo;</div>
+    <div id="bannerIphone"><b>iPhone:</b> condividi &#11014; &rarr; &ldquo;Aggiungi a schermata Home&rdquo;</div>
+    <div style="margin-top:6px;text-align:right"><span onclick="document.getElementById('installBanner').style.display='none'" style="font-size:11px;opacity:.7;cursor:pointer" id="bannerClose">Chiudi &times;</span></div>
   </div>
 
   <div class="section">
-    <div class="label">Strumento</div>
+    <div class="label" id="lblInstrument">Strumento</div>
     <div class="instr-grid" id="instrGrid"></div>
   </div>
 
   <div class="section">
-    <div class="label">Cosa stai esercitando</div>
+    <div class="label" id="lblExercise">Cosa stai esercitando</div>
     <input type="text" id="exerciseInput" placeholder="es. scale, brano, improvvisazione">
   </div>
 
   <div class="sens-card">
     <div class="sens-header">
-      <span class="sens-title">Sensibilità microfono</span>
+      <span class="sens-title" id="lblSens">Sensibilità microfono</span>
       <span class="sens-badge" id="sensLabel">Media</span>
     </div>
     <input type="range" id="sensSlider" min="1" max="5" step="1" value="3" oninput="onSensChange(this.value)">
-    <div class="sens-labels"><span>Bassa</span><span>Media</span><span>Alta</span></div>
+    <div class="sens-labels"><span id="sensLow">Bassa</span><span id="sensMid">Media</span><span id="sensHigh">Alta</span></div>
   </div>
 
   <div class="meter-wrap">
-    <div class="meter-meta"><span>Livello audio rilevato</span><span id="meterPct">0%</span></div>
+    <div class="meter-meta"><span id="lblAudio">Livello audio rilevato</span><span id="meterPct">0%</span></div>
     <div class="meter-bar">
       <div class="meter-fill" id="meterFill"></div>
       <div class="meter-threshold" id="meterThreshold"></div>
     </div>
-    <div style="font-size:10px;color:var(--text3);margin-top:3px;text-align:right">La linea rossa è la soglia di attivazione</div>
+    <div style="font-size:10px;color:var(--text3);margin-top:3px;text-align:right" id="lblThreshold">La linea rossa è la soglia di attivazione</div>
   </div>
 
   <button class="mic-btn" id="micBtn" onclick="toggleMic()">
@@ -249,11 +225,11 @@
     <div class="badge badge-idle" id="stateBadge"><div class="dot"></div><span id="stateText">In attesa</span></div>
     <div class="timers-row">
       <div class="timer-block">
-        <div class="timer-lbl">Pratica effettiva</div>
+        <div class="timer-lbl" id="lblPractice">Pratica effettiva</div>
         <div class="timer-val practice" id="practiceDisplay">00:00:00</div>
       </div>
       <div class="timer-block">
-        <div class="timer-lbl">Pause lunghe</div>
+        <div class="timer-lbl" id="lblBreaks">Pause lunghe</div>
         <div class="timer-val break" id="breakDisplay">00:00:00</div>
       </div>
     </div>
@@ -261,113 +237,269 @@
   </div>
 
   <div class="stats-grid">
-    <div class="stat-box"><div class="stat-val" id="statToday">0m</div><div class="stat-lbl">Oggi</div></div>
-    <div class="stat-box"><div class="stat-val" id="statSessions">0</div><div class="stat-lbl">Sessioni</div></div>
-    <div class="stat-box"><div class="stat-val" id="statDays">0🔥</div><div class="stat-lbl">Giorni</div></div>
+    <div class="stat-box"><div class="stat-val" id="statToday">0m</div><div class="stat-lbl" id="lblToday">Oggi</div></div>
+    <div class="stat-box"><div class="stat-val" id="statSessions">0</div><div class="stat-lbl" id="lblSessions">Sessioni</div></div>
+    <div class="stat-box"><div class="stat-val" id="statDays">0🔥</div><div class="stat-lbl" id="lblDays">Giorni</div></div>
   </div>
 
-  <div class="sessions-lbl">Sessioni recenti</div>
+  <div class="sessions-lbl" id="lblRecent">Sessioni recenti</div>
   <div id="sessionList"></div>
 
 </div>
 
 <script>
-const SILENCE_THRESHOLD_SEC = 30;
-const CONFIRM_PLAY_SEC = 4;
+const SILENCE_THRESHOLD_SEC=30;
+const CONFIRM_PLAY_SEC=4;
 
-const INSTRUMENTS = [
-  { id:'flauto',   name:'Flauto',     icon:'<svg viewBox="0 0 40 24" width="28" height="17" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle"><rect x="1" y="10" width="38" height="4" rx="2" fill="currentColor"/><ellipse cx="5" cy="12" rx="3.2" ry="4.5" fill="currentColor" opacity="0.85"/><circle cx="13" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="19" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="25" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="31" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="13" cy="14.8" r="1" fill="var(--bg)" opacity="0.6"/></svg>', hint:'500–4000 Hz', freqMin:500, freqMax:4000, baseThreshold:18, smoothing:.70 },
-  { id:'violino',  name:'Violino',    icon:'🎻', hint:'200–6000 Hz', freqMin:200, freqMax:6000, baseThreshold:14, smoothing:.65 },
-  { id:'piano',    name:'Pianoforte', icon:'🎹', hint:'80–5000 Hz',  freqMin:80,  freqMax:5000, baseThreshold:16, smoothing:.50 },
-  { id:'chitarra', name:'Chitarra',   icon:'🎸', hint:'80–3000 Hz',  freqMin:80,  freqMax:3000, baseThreshold:15, smoothing:.60 },
-  { id:'tromba',   name:'Tromba',     icon:'🎺', hint:'200–3500 Hz', freqMin:200, freqMax:3500, baseThreshold:20, smoothing:.55 },
-  { id:'batteria', name:'Batteria',   icon:'🥁', hint:'60–8000 Hz',  freqMin:60,  freqMax:8000, baseThreshold:22, smoothing:.30 }
+const FLUTE_SVG='<svg viewBox="0 0 40 24" width="28" height="17" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle"><rect x="1" y="10" width="38" height="4" rx="2" fill="currentColor"/><ellipse cx="5" cy="12" rx="3.2" ry="4.5" fill="currentColor" opacity="0.85"/><circle cx="13" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="19" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="25" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="31" cy="9.2" r="1.5" fill="var(--bg)"/><circle cx="13" cy="14.8" r="1" fill="var(--bg)" opacity="0.6"/></svg>';
+
+const TRANSLATIONS = {
+  it: {
+    sub:'Misura il tuo tempo di studio reale',
+    lblInstrument:'Strumento', lblExercise:'Cosa stai esercitando',
+    exercisePlaceholder:'es. scale, brano, improvvisazione',
+    lblSens:'Sensibilità microfono', sensLow:'Bassa', sensMid:'Media', sensHigh:'Alta',
+    sensLevels:{1:'Molto bassa',2:'Bassa',3:'Media',4:'Alta',5:'Molto alta'},
+    lblAudio:'Livello audio rilevato', lblThreshold:'La linea rossa è la soglia di attivazione',
+    micStart:'Avvia ascolto', micStop:'Termina sessione',
+    lblPractice:'Pratica effettiva', lblBreaks:'Pause lunghe',
+    lblToday:'Oggi', lblSessions:'Sessioni', lblDays:'Giorni',
+    lblRecent:'Sessioni recenti',
+    stateIdle:'In attesa', statePlaying:'Sta suonando', stateSilence:'Silenzio breve...',
+    stateBreak:'In pausa', stateConfirming:'Ripresa rilevata...',
+    stateCalibrating:'Calibrazione in corso...',
+    cdSilence:'Pausa lunga tra', cdConfirm:'Riprendo tra', cdBreak:`Suona per ${CONFIRM_PLAY_SEC}s per riprendere`,
+    sessionFree:'Sessione libera', sessionPauses:'pause',
+    emptyState:'Nessuna sessione ancora.\nScegli lo strumento e inizia a suonare!',
+    micError:'Impossibile accedere al microfono.\n\nAssicurati di aver dato il permesso al browser.',
+    bannerTitle:'📲 Installa come app',
+    bannerAndroid:'<b>Android:</b> menu ⋮ → "Aggiungi a schermata Home"',
+    bannerIphone:'<b>iPhone:</b> condividi ⬆ → "Aggiungi a schermata Home"',
+    bannerClose:'Chiudi ×',
+    infoTitle:'Come funziona',
+    infoOk:'Ho capito',
+    infoBody:`<p>🎙 <b>Rilevamento automatico</b><br>Il microfono ascolta in continuazione. Quando suoni, il timer della pratica avanza. Le pause brevi (meno di 30 secondi) vengono conteggiate come pratica.</p>
+<p>⏸ <b>Pausa lunga</b><br>Se smetti di suonare per più di 30 secondi, l'app entra in modalità pausa. Il timer pratica si ferma e inizia a contare le pause lunghe.</p>
+<p>▶️ <b>Ripresa automatica</b><br>Quando riprendi a suonare, l'app aspetta 4 secondi per confermare, poi riprende il timer pratica.</p>
+<p>🎻 <b>Profili per strumento</b><br>Ogni strumento usa un profilo audio ottimizzato per riconoscere meglio il suo suono specifico.</p>
+<p>🎚 <b>Sensibilità</b><br>Usa lo slider per adattare la soglia all'ambiente. La linea rossa mostra la soglia in tempo reale.</p>
+<p>📲 <b>Installazione come app</b><br>Questa è una PWA: puoi installarla sulla schermata home.<br><b>Android:</b> menu ⋮ → "Aggiungi a schermata Home"<br><b>iPhone:</b> condividi ⬆ → "Aggiungi a schermata Home"</p>`,
+    instrNames:{flauto:'Flauto',violino:'Violino',piano:'Pianoforte',chitarra:'Chitarra',tromba:'Tromba',batteria:'Batteria'}
+  },
+  en: {
+    sub:'Measure your real study time',
+    lblInstrument:'Instrument', lblExercise:'What are you practicing',
+    exercisePlaceholder:'e.g. scales, piece, improvisation',
+    lblSens:'Microphone sensitivity', sensLow:'Low', sensMid:'Medium', sensHigh:'High',
+    sensLevels:{1:'Very low',2:'Low',3:'Medium',4:'High',5:'Very high'},
+    lblAudio:'Detected audio level', lblThreshold:'The red line is the activation threshold',
+    micStart:'Start listening', micStop:'End session',
+    lblPractice:'Actual practice', lblBreaks:'Long breaks',
+    lblToday:'Today', lblSessions:'Sessions', lblDays:'Days',
+    lblRecent:'Recent sessions',
+    stateIdle:'Waiting', statePlaying:'Playing', stateSilence:'Brief silence...',
+    stateBreak:'On break', stateConfirming:'Resuming detected...',
+    stateCalibrating:'Calibrating environment...',
+    cdSilence:'Long break in', cdConfirm:'Resuming in', cdBreak:`Play for ${CONFIRM_PLAY_SEC}s to resume`,
+    sessionFree:'Free session', sessionPauses:'breaks',
+    emptyState:'No sessions yet.\nChoose an instrument and start playing!',
+    micError:'Cannot access microphone.\n\nMake sure you have granted browser permission.',
+    bannerTitle:'📲 Install as app',
+    bannerAndroid:'<b>Android:</b> menu ⋮ → "Add to Home Screen"',
+    bannerIphone:'<b>iPhone:</b> share ⬆ → "Add to Home Screen"',
+    bannerClose:'Close ×',
+    infoTitle:'How it works',
+    infoOk:'Got it',
+    infoBody:`<p>🎙 <b>Automatic detection</b><br>The microphone listens continuously. When you play, the practice timer advances. Short pauses (less than 30 seconds) count as practice.</p>
+<p>⏸ <b>Long break</b><br>If you stop playing for more than 30 seconds, the app enters break mode. The practice timer stops and starts counting long breaks.</p>
+<p>▶️ <b>Automatic resume</b><br>When you resume playing, the app waits 4 seconds to confirm, then resumes the practice timer.</p>
+<p>🎻 <b>Instrument profiles</b><br>Each instrument uses an optimized audio profile to better recognize its specific sound.</p>
+<p>🎚 <b>Sensitivity</b><br>Use the slider to adapt the threshold to your environment. The red line shows the threshold in real time.</p>
+<p>📲 <b>Install as app</b><br>This is a PWA: you can install it on your home screen.<br><b>Android:</b> menu ⋮ → "Add to Home Screen"<br><b>iPhone:</b> share ⬆ → "Add to Home Screen"</p>`,
+    instrNames:{flauto:'Flute',violino:'Violin',piano:'Piano',chitarra:'Guitar',tromba:'Trumpet',batteria:'Drums'}
+  },
+  de: {
+    sub:'Miss deine echte Übungszeit',
+    lblInstrument:'Instrument', lblExercise:'Was übst du',
+    exercisePlaceholder:'z.B. Tonleitern, Stück, Improvisation',
+    lblSens:'Mikrofon-Empfindlichkeit', sensLow:'Niedrig', sensMid:'Mittel', sensHigh:'Hoch',
+    sensLevels:{1:'Sehr niedrig',2:'Niedrig',3:'Mittel',4:'Hoch',5:'Sehr hoch'},
+    lblAudio:'Erkannter Audiopegel', lblThreshold:'Die rote Linie ist die Aktivierungsschwelle',
+    micStart:'Aufnahme starten', micStop:'Sitzung beenden',
+    lblPractice:'Effektive Übung', lblBreaks:'Lange Pausen',
+    lblToday:'Heute', lblSessions:'Sitzungen', lblDays:'Tage',
+    lblRecent:'Letzte Sitzungen',
+    stateIdle:'Warte...', statePlaying:'Spielt', stateSilence:'Kurze Pause...',
+    stateBreak:'Pause', stateConfirming:'Wiederaufnahme erkannt...',
+    stateCalibrating:'Umgebung kalibrieren...',
+    cdSilence:'Lange Pause in', cdConfirm:'Fortsetzen in', cdBreak:`${CONFIRM_PLAY_SEC}s spielen zum Fortsetzen`,
+    sessionFree:'Freie Sitzung', sessionPauses:'Pausen',
+    emptyState:'Noch keine Sitzungen.\nWähle ein Instrument und fang an zu spielen!',
+    micError:'Kein Zugriff auf das Mikrofon.\n\nBitte erlaube den Zugriff im Browser.',
+    bannerTitle:'📲 Als App installieren',
+    bannerAndroid:'<b>Android:</b> Menü ⋮ → "Zum Startbildschirm hinzufügen"',
+    bannerIphone:'<b>iPhone:</b> Teilen ⬆ → "Zum Home-Bildschirm"',
+    bannerClose:'Schließen ×',
+    infoTitle:'So funktioniert es',
+    infoOk:'Verstanden',
+    infoBody:`<p>🎙 <b>Automatische Erkennung</b><br>Das Mikrofon hört kontinuierlich zu. Wenn du spielst, läuft der Übungstimer. Kurze Pausen (unter 30 Sekunden) zählen als Übungszeit.</p>
+<p>⏸ <b>Lange Pause</b><br>Wenn du länger als 30 Sekunden aufhörst zu spielen, wechselt die App in den Pausenmodus.</p>
+<p>▶️ <b>Automatische Fortsetzung</b><br>Wenn du wieder anfängst zu spielen, wartet die App 4 Sekunden zur Bestätigung, dann läuft der Timer weiter.</p>
+<p>🎻 <b>Instrumentenprofile</b><br>Jedes Instrument verwendet ein optimiertes Audioprofil.</p>
+<p>🎚 <b>Empfindlichkeit</b><br>Passe die Schwelle mit dem Schieberegler an deine Umgebung an.</p>
+<p>📲 <b>Als App installieren</b><br>Dies ist eine PWA: du kannst sie auf dem Startbildschirm installieren.<br><b>Android:</b> Menü ⋮ → "Zum Startbildschirm"<br><b>iPhone:</b> Teilen ⬆ → "Zum Home-Bildschirm"</p>`,
+    instrNames:{flauto:'Flöte',violino:'Geige',piano:'Klavier',chitarra:'Gitarre',tromba:'Trompete',batteria:'Schlagzeug'}
+  }
+};
+
+const INSTRUMENTS=[
+  {id:'flauto', icon:FLUTE_SVG, hint:'500–4000 Hz', freqMin:500,freqMax:4000,baseThreshold:18,smoothing:.70},
+  {id:'violino', icon:'🎻', hint:'200–6000 Hz', freqMin:200,freqMax:6000,baseThreshold:14,smoothing:.65},
+  {id:'piano',   icon:'🎹', hint:'80–5000 Hz',  freqMin:80, freqMax:5000,baseThreshold:16,smoothing:.50},
+  {id:'chitarra',icon:'🎸', hint:'80–3000 Hz',  freqMin:80, freqMax:3000,baseThreshold:15,smoothing:.60},
+  {id:'tromba',  icon:'🎺', hint:'200–3500 Hz', freqMin:200,freqMax:3500,baseThreshold:20,smoothing:.55},
+  {id:'batteria',icon:'🥁', hint:'60–8000 Hz',  freqMin:60, freqMax:8000,baseThreshold:22,smoothing:.30}
 ];
 
-// Sensibilità 1=molto bassa (soglia alta) … 5=molto alta (soglia bassa)
-const SENS_MULT   = { 1:1.8, 2:1.35, 3:1.0, 4:0.65, 5:0.35 };
-const SENS_LABELS = { 1:'Molto bassa', 2:'Bassa', 3:'Media', 4:'Alta', 5:'Molto alta' };
+const SENS_MULT={1:1.8,2:1.35,3:1.0,4:0.65,5:0.35};
 
-let activeInstrument = INSTRUMENTS[0];
-let sensitivityLevel = 3;
-let sessions = [];
-try { sessions = JSON.parse(localStorage.getItem('ptimer_sessions') || '[]'); } catch(e){}
+let lang='it';
+let activeInstrument=INSTRUMENTS[0];
+let sensitivityLevel=3;
+let sessions=[];
+try{sessions=JSON.parse(localStorage.getItem('ptimer_sessions')||'[]');}catch(e){}
 
-let audioCtx=null, analyser=null, micStream=null;
-let micActive=false, animFrame=null;
+let audioCtx=null,analyser=null,micStream=null;
+let micActive=false,animFrame=null;
 let state='idle';
-let practiceSeconds=0, breakSeconds=0;
-let silenceSince=null, confirmingStart=null;
-let tickInterval=null, smoothScore=0;
+let practiceSeconds=0,breakSeconds=0;
+let silenceSince=null,confirmingStart=null;
+let tickInterval=null,smoothScore=0;
 
-function getThreshold() {
-  return activeInstrument.baseThreshold * SENS_MULT[sensitivityLevel];
+// Calibrazione adattiva rumore di fondo
+let noiseFloor=0;
+let noiseCalibrated=false;
+let noiseFrames=[];
+const NOISE_CAL_FRAMES=90;
+let calibrating=false;
+
+function t(){return TRANSLATIONS[lang];}
+
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+  document.documentElement.lang=l;
+  applyTranslations();
+  buildGrid();
+  renderSessions();
+  updateInfoModal();
 }
 
-function onSensChange(val) {
-  sensitivityLevel = parseInt(val);
-  document.getElementById('sensLabel').textContent = SENS_LABELS[sensitivityLevel];
+function applyTranslations(){
+  const T=t();
+  document.getElementById('topSub').textContent=T.sub;
+  document.getElementById('lblInstrument').textContent=T.lblInstrument;
+  document.getElementById('lblExercise').textContent=T.lblExercise;
+  document.getElementById('exerciseInput').placeholder=T.exercisePlaceholder;
+  document.getElementById('lblSens').textContent=T.lblSens;
+  document.getElementById('sensLow').textContent=T.sensLow;
+  document.getElementById('sensMid').textContent=T.sensMid;
+  document.getElementById('sensHigh').textContent=T.sensHigh;
+  document.getElementById('lblAudio').textContent=T.lblAudio;
+  document.getElementById('lblThreshold').textContent=T.lblThreshold;
+  document.getElementById('micBtnText').textContent=micActive?T.micStop:T.micStart;
+  document.getElementById('lblPractice').textContent=T.lblPractice;
+  document.getElementById('lblBreaks').textContent=T.lblBreaks;
+  document.getElementById('lblToday').textContent=T.lblToday;
+  document.getElementById('lblSessions').textContent=T.lblSessions;
+  document.getElementById('lblDays').textContent=T.lblDays;
+  document.getElementById('lblRecent').textContent=T.lblRecent;
+  document.getElementById('bannerTitle').textContent=T.bannerTitle;
+  document.getElementById('bannerAndroid').innerHTML=T.bannerAndroid;
+  document.getElementById('bannerIphone').innerHTML=T.bannerIphone;
+  document.getElementById('bannerClose').innerHTML=T.bannerClose;
+  onSensChange(sensitivityLevel, false);
+  setState(state);
+}
+
+function updateInfoModal(){
+  const T=t();
+  document.getElementById('infoTitle').textContent=T.infoTitle;
+  document.getElementById('infoBody').innerHTML=T.infoBody+`<button class="modal-ok" onclick="document.getElementById('infoModal').style.display='none'">${T.infoOk}</button>`;
+}
+
+function getThreshold(){return activeInstrument.baseThreshold*SENS_MULT[sensitivityLevel];}
+
+function onSensChange(val, update=true){
+  sensitivityLevel=parseInt(val);
+  if(update) document.getElementById('sensSlider').value=val;
+  document.getElementById('sensLabel').textContent=t().sensLevels[sensitivityLevel];
   updateThreshMarker();
 }
 
-function buildGrid() {
-  const g = document.getElementById('instrGrid');
-  g.innerHTML = '';
-  INSTRUMENTS.forEach(ins => {
-    const c = document.createElement('div');
-    c.className = 'instr-card'+(ins.id===activeInstrument.id?' active':'');
-    c.innerHTML = `<div class="instr-icon">${ins.icon}</div><div class="instr-name">${ins.name}</div><div class="instr-hint">${ins.hint}</div>`;
-    c.onclick = () => { if(!micActive){ activeInstrument=ins; buildGrid(); updateThreshMarker(); } };
+function buildGrid(){
+  const g=document.getElementById('instrGrid');
+  g.innerHTML='';
+  const T=t();
+  INSTRUMENTS.forEach(ins=>{
+    const c=document.createElement('div');
+    c.className='instr-card'+(ins.id===activeInstrument.id?' active':'');
+    c.innerHTML=`<div class="instr-icon">${ins.icon}</div><div class="instr-name">${T.instrNames[ins.id]}</div><div class="instr-hint">${ins.hint}</div>`;
+    c.onclick=()=>{if(!micActive){activeInstrument=ins;buildGrid();updateThreshMarker();}};
     g.appendChild(c);
   });
 }
 
-function updateThreshMarker() {
-  const pct = Math.min(97, (getThreshold()/60)*100);
-  document.getElementById('meterThreshold').style.left = pct.toFixed(1)+'%';
+function updateThreshMarker(){
+  const pct=Math.min(97,(getThreshold()/60)*100);
+  document.getElementById('meterThreshold').style.left=pct.toFixed(1)+'%';
 }
 
-function fmt(s) {
+function fmt(s){
   const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
   return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
 }
-function fmtShort(s) {
+function fmtShort(s){
   const h=Math.floor(s/3600),m=Math.floor((s%3600)/60);
   return h>0?`${h}h ${m}m`:`${m}m`;
 }
 
-function setState(s) {
+function setState(s){
   state=s;
   const badge=document.getElementById('stateBadge');
   badge.className='badge';
+  const T=t();
   const map={
-    idle:       ['badge-idle','In attesa'],
-    playing:    ['badge-playing','Sta suonando'],
-    silence:    ['badge-silence','Silenzio breve...'],
-    break:      ['badge-break','In pausa'],
-    confirming: ['badge-confirming','Ripresa rilevata...']
+    idle:['badge-idle',T.stateIdle],
+    calibrating:['badge-calibrating',T.stateCalibrating],
+    playing:['badge-playing',T.statePlaying],
+    silence:['badge-silence',T.stateSilence],
+    break:['badge-break',T.stateBreak],
+    confirming:['badge-confirming',T.stateConfirming]
   };
   const [cls,label]=map[s]||map.idle;
   badge.classList.add(cls);
   document.getElementById('stateText').textContent=label;
 }
 
-function updateCountdown() {
+function updateCountdown(){
   const el=document.getElementById('countdownRow');
+  const T=t();
   if(state==='silence'&&silenceSince!==null){
     const rem=Math.max(0,SILENCE_THRESHOLD_SEC-(Date.now()-silenceSince)/1000);
-    el.innerHTML=`Pausa lunga tra <span class="countdown-accent">${Math.ceil(rem)}s</span>`;
+    el.innerHTML=`${T.cdSilence} <span class="countdown-accent">${Math.ceil(rem)}s</span>`;
   } else if(state==='confirming'&&confirmingStart!==null){
     const rem=Math.max(0,CONFIRM_PLAY_SEC-(Date.now()-confirmingStart)/1000);
-    el.innerHTML=`Riprendo tra <span class="countdown-accent">${Math.ceil(rem)}s</span>`;
+    el.innerHTML=`${T.cdConfirm} <span class="countdown-accent">${Math.ceil(rem)}s</span>`;
   } else if(state==='break'){
-    el.innerHTML=`Suona per <span class="countdown-accent">${CONFIRM_PLAY_SEC}s</span> per riprendere`;
+    el.innerHTML=`<span class="countdown-accent">${T.cdBreak}</span>`;
   } else {
     el.innerHTML='';
   }
 }
 
-function tick() {
+function tick(){
+  if(state==='calibrating') return;
   if(state==='playing'||state==='silence') practiceSeconds++;
   if(state==='break') breakSeconds++;
   document.getElementById('practiceDisplay').textContent=fmt(practiceSeconds);
@@ -375,32 +507,59 @@ function tick() {
   updateCountdown();
 }
 
-function getScore(data, sampleRate) {
-  const ins=activeInstrument;
-  const nyquist=sampleRate/2;
-  const minBin=Math.floor(ins.freqMin/nyquist*data.length);
-  const maxBin=Math.min(data.length-1,Math.ceil(ins.freqMax/nyquist*data.length));
-  let sum=0,count=0,total=0;
-  for(let i=0;i<data.length;i++) total+=data[i];
-  for(let i=minBin;i<=maxBin;i++){sum+=data[i];count++;}
-  const bandAvg=count>0?sum/count:0;
-  const totalAvg=total/data.length;
-  const ratio=totalAvg>1?bandAvg/totalAvg:0;
-  let score=(bandAvg/255)*50*ratio;
-  if(ins.id==='piano'){
-    let peak=0; for(let i=minBin;i<=maxBin;i++) if(data[i]>peak) peak=data[i];
-    score=score*.6+(peak/255)*20;
+// --- ANALISI SPETTRALE PESATA PER STRUMENTO ---
+// Ogni strumento ha una mappa di pesi per sub-bande:
+// le frequenze fondamentali pesano di piu' degli armonici
+const INSTR_SPECTRAL = {
+  flauto:   [{lo:500,  hi:900,  w:3.0},{lo:900,  hi:1800, w:2.0},{lo:1800, hi:3000, w:1.2},{lo:3000, hi:4000, w:0.6}],
+  violino:  [{lo:200,  hi:600,  w:2.5},{lo:600,  hi:1500, w:2.0},{lo:1500, hi:3000, w:1.5},{lo:3000, hi:6000, w:0.8}],
+  piano:    [{lo:80,   hi:300,  w:2.0},{lo:300,  hi:1000, w:2.5},{lo:1000, hi:3000, w:1.5},{lo:3000, hi:5000, w:0.7}],
+  chitarra: [{lo:80,   hi:300,  w:2.5},{lo:300,  hi:800,  w:2.0},{lo:800,  hi:2000, w:1.2},{lo:2000, hi:3000, w:0.5}],
+  tromba:   [{lo:200,  hi:600,  w:2.0},{lo:600,  hi:1500, w:2.5},{lo:1500, hi:2500, w:1.5},{lo:2500, hi:3500, w:0.8}],
+  batteria: [{lo:60,   hi:200,  w:1.5},{lo:200,  hi:800,  w:2.0},{lo:800,  hi:3000, w:1.5},{lo:3000, hi:8000, w:1.0}]
+};
+
+function freqToBin(freq, sampleRate, bufLen){
+  return Math.min(bufLen-1, Math.round(freq / (sampleRate/2) * bufLen));
+}
+
+function getScore(data, sampleRate){
+  const ins = activeInstrument;
+  const bands = INSTR_SPECTRAL[ins.id];
+  const N = data.length;
+
+  // 1. Calcola energia pesata per sub-banda
+  let weightedSum = 0, totalWeight = 0;
+  for(const band of bands){
+    const lo = freqToBin(band.lo, sampleRate, N);
+    const hi = freqToBin(band.hi, sampleRate, N);
+    let bandSum = 0, count = 0;
+    for(let i=lo; i<=hi; i++){ bandSum += data[i]; count++; }
+    const bandAvg = count > 0 ? bandSum/count : 0;
+    weightedSum += bandAvg * band.w;
+    totalWeight += band.w;
   }
-  if(ins.id==='batteria'){
-    let peak=0; for(let i=0;i<data.length;i++) if(data[i]>peak) peak=data[i];
-    score=(peak/255)*45;
-  }
+  const weightedAvg = totalWeight > 0 ? weightedSum / totalWeight : 0;
+
+  // 2. Rapporto segnale/totale (riduce il peso dei rumori broadband)
+  let total = 0;
+  for(let i=0; i<N; i++) total += data[i];
+  const totalAvg = total / N;
+  const snRatio = totalAvg > 1 ? Math.min(2.0, weightedAvg / totalAvg) : 0;
+
+  // 3. Score grezzo
+  let score = (weightedAvg / 255) * 50 * snRatio;
+
+  // 4. Sottrai il noise floor calibrato (con margine)
+  const noiseMargin = noiseFloor * 1.3;
+  score = Math.max(0, score - noiseMargin);
+
   return score;
 }
 
-async function toggleMic() {
+async function toggleMic(){
   if(micActive){stopMic();return;}
-  try {
+  try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false});
     micStream=stream;
     audioCtx=new(window.AudioContext||window.webkitAudioContext)();
@@ -408,49 +567,73 @@ async function toggleMic() {
     analyser.fftSize=2048;
     analyser.smoothingTimeConstant=activeInstrument.smoothing;
     audioCtx.createMediaStreamSource(stream).connect(analyser);
-    micActive=true; practiceSeconds=0; breakSeconds=0;
-    silenceSince=null; confirmingStart=null; smoothScore=0;
-    setState('playing');
-    document.getElementById('micBtnText').textContent='Termina sessione';
+    micActive=true;practiceSeconds=0;breakSeconds=0;
+    silenceSince=null;confirmingStart=null;smoothScore=0;
+    noiseFloor=0;noiseCalibrated=false;noiseFrames=[];calibrating=true;
+    setState('calibrating');
+    document.getElementById('micBtnText').textContent=t().micStop;
     document.getElementById('micBtn').classList.add('active');
     tickInterval=setInterval(tick,1000);
     loopAudio();
-  } catch(e) {
-    alert('Impossibile accedere al microfono.\n\nAssicurati di aver dato il permesso al browser.');
-  }
+  }catch(e){alert(t().micError);}
 }
 
-function stopMic() {
+function stopMic(){
   if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;}
   if(audioCtx){audioCtx.close();audioCtx=null;}
   if(animFrame){cancelAnimationFrame(animFrame);animFrame=null;}
   if(tickInterval){clearInterval(tickInterval);tickInterval=null;}
   micActive=false;
-  document.getElementById('micBtnText').textContent='Avvia ascolto';
+  document.getElementById('micBtnText').textContent=t().micStart;
   document.getElementById('micBtn').classList.remove('active');
   document.getElementById('meterFill').style.width='0%';
   document.getElementById('meterFill').classList.remove('loud');
   document.getElementById('meterPct').textContent='0%';
   document.getElementById('countdownRow').innerHTML='';
   if(practiceSeconds>5){
+    const instrName=t().instrNames[activeInstrument.id];
     sessions.unshift({
-      instrument:activeInstrument.icon+' '+activeInstrument.name,
-      exercise:document.getElementById('exerciseInput').value||'Sessione libera',
-      practice:practiceSeconds, breaks:breakSeconds,
-      date:new Date().toISOString(), dateKey:new Date().toDateString()
+      instrument:activeInstrument.icon+' '+instrName,
+      exercise:document.getElementById('exerciseInput').value||t().sessionFree,
+      practice:practiceSeconds,breaks:breakSeconds,
+      date:new Date().toISOString(),dateKey:new Date().toDateString()
     });
-    if(sessions.length>50) sessions=sessions.slice(0,50);
+    if(sessions.length>50)sessions=sessions.slice(0,50);
     try{localStorage.setItem('ptimer_sessions',JSON.stringify(sessions));}catch(e){}
   }
-  setState('idle'); updateStats(); renderSessions();
+  setState('idle');updateStats();renderSessions();
 }
 
-function loopAudio() {
-  if(!micActive||!analyser) return;
+function loopAudio(){
+  if(!micActive||!analyser)return;
   const buf=new Uint8Array(analyser.frequencyBinCount);
   analyser.getByteFrequencyData(buf);
+
+  // FASE 1: calibrazione rumore di fondo (~3 sec)
+  if(calibrating){
+    // Durante calibrazione usa score senza sottrazione noise
+    let total=0; for(let i=0;i<buf.length;i++) total+=buf[i];
+    noiseFrames.push(total/buf.length/255*50);
+    const rem=Math.ceil((NOISE_CAL_FRAMES-noiseFrames.length)/30);
+    document.getElementById('meterPct').textContent=rem+'s';
+    document.getElementById('meterFill').style.width=Math.round(noiseFrames.length/NOISE_CAL_FRAMES*100)+'%';
+    if(noiseFrames.length>=NOISE_CAL_FRAMES){
+      // Usa il percentile 75 come noise floor (ignora picchi casuali)
+      const sorted=[...noiseFrames].sort((a,b)=>a-b);
+      noiseFloor=sorted[Math.floor(sorted.length*0.75)];
+      noiseCalibrated=true; calibrating=false;
+      setState('playing');
+    }
+    animFrame=requestAnimationFrame(loopAudio);
+    return;
+  }
+
+  // FASE 2: rilevamento normale con noise floor sottratto
   const raw=getScore(buf,audioCtx.sampleRate);
-  smoothScore=smoothScore*.75+raw*.25;
+  // Smoothing asimmetrico: veloce in attacco (suono arriva), lento in rilascio (evita stop prematuri)
+  const alpha = raw > smoothScore ? 0.4 : 0.15;
+  smoothScore=smoothScore*(1-alpha)+raw*alpha;
+
   const thr=getThreshold();
   const pct=Math.min(100,Math.round((smoothScore/60)*100));
   const loud=smoothScore>thr;
@@ -459,53 +642,48 @@ function loopAudio() {
   fill.classList.toggle('loud',loud);
   document.getElementById('meterPct').textContent=pct+'%';
   const now=Date.now();
-  if(state==='playing'){
-    if(!loud){silenceSince=now;setState('silence');}
-  } else if(state==='silence'){
-    if(loud){silenceSince=null;setState('playing');}
-    else if((now-silenceSince)/1000>=SILENCE_THRESHOLD_SEC){setState('break');silenceSince=null;}
-  } else if(state==='break'){
-    if(loud){confirmingStart=now;setState('confirming');}
-  } else if(state==='confirming'){
-    if(!loud){confirmingStart=null;setState('break');}
-    else if((now-confirmingStart)/1000>=CONFIRM_PLAY_SEC){confirmingStart=null;setState('playing');}
-  }
+  if(state==='playing'){if(!loud){silenceSince=now;setState('silence');}}
+  else if(state==='silence'){if(loud){silenceSince=null;setState('playing');}else if((now-silenceSince)/1000>=SILENCE_THRESHOLD_SEC){setState('break');silenceSince=null;}}
+  else if(state==='break'){if(loud){confirmingStart=now;setState('confirming');}}
+  else if(state==='confirming'){if(!loud){confirmingStart=null;setState('break');}else if((now-confirmingStart)/1000>=CONFIRM_PLAY_SEC){confirmingStart=null;setState('playing');}}
   animFrame=requestAnimationFrame(loopAudio);
 }
 
-function updateStats() {
+function updateStats(){
   const today=sessions.filter(s=>s.dateKey===new Date().toDateString());
   document.getElementById('statToday').textContent=fmtShort(today.reduce((a,s)=>a+s.practice,0))||'0m';
   document.getElementById('statSessions').textContent=today.length;
   document.getElementById('statDays').textContent=new Set(sessions.map(s=>s.dateKey)).size+'🔥';
 }
 
-function renderSessions() {
+function renderSessions(){
   const list=document.getElementById('sessionList');
+  const T=t();
   if(!sessions.length){
-    list.innerHTML='<div class="empty-state">Nessuna sessione ancora.<br>Scegli lo strumento e inizia a suonare!</div>';
+    list.innerHTML=`<div class="empty-state">${T.emptyState.replace('\n','<br>')}</div>`;
     return;
   }
   list.innerHTML=sessions.slice(0,15).map(s=>{
     const d=new Date(s.date);
     const isToday=d.toDateString()===new Date().toDateString();
-    const ts=d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
-    const ds=isToday?`Oggi ${ts}`:d.toLocaleDateString('it-IT',{day:'numeric',month:'short'})+' '+ts;
+    const ts=d.toLocaleTimeString(lang+'-'+lang.toUpperCase(),{hour:'2-digit',minute:'2-digit'});
+    const ds=isToday?`${T.lblToday} ${ts}`:d.toLocaleDateString(lang+'-'+lang.toUpperCase(),{day:'numeric',month:'short'})+' '+ts;
     return `<div class="session-item">
       <div>
         <div class="session-name">${s.instrument} · ${s.exercise}</div>
-        <div class="session-meta">${ds} · pause ${fmtShort(s.breaks||0)}</div>
+        <div class="session-meta">${ds} · ${T.sessionPauses} ${fmtShort(s.breaks||0)}</div>
       </div>
       <div class="session-dur">${fmtShort(s.practice)}</div>
     </div>`;
   }).join('');
 }
 
+setLang('it');
 onSensChange(3);
-if(window.navigator.standalone !== true && window.matchMedia("(display-mode: standalone)").matches === false){
-  setTimeout(()=>{ document.getElementById("installBanner").style.display="block"; }, 1000);
+buildGrid();updateThreshMarker();updateStats();renderSessions();updateInfoModal();
+if(window.navigator.standalone!==true&&window.matchMedia('(display-mode: standalone)').matches===false){
+  setTimeout(()=>{document.getElementById('installBanner').style.display='block';},1000);
 }
-buildGrid(); updateThreshMarker(); updateStats(); renderSessions();
 </script>
 </body>
 </html>
