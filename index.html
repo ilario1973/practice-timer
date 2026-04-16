@@ -161,7 +161,7 @@
     <div class="topbar-title">Practice Timer</div>
     <div class="topbar-sub" id="topSub">Misura il tuo tempo di studio reale</div>
   </div>
-  <div class="topbar-brand">gli strumenti di SuonARte</div>
+  <div class="topbar-brand">gli strumenti di SuonARte <span style="opacity:.5">v1.00</span></div>
   <div class="lang-selector">
     <button class="lang-btn active" onclick="setLang('it')">IT</button>
     <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -654,7 +654,7 @@ function loopAudio(){
   if(state==='playing'){if(!loud){silenceSince=now;setState('silence');}}
   else if(state==='silence'){if(loud){silenceSince=null;setState('playing');}else if((now-silenceSince)/1000>=SILENCE_THRESHOLD_SEC){setState('break');silenceSince=null;}}
   else if(state==='break'){if(loud){confirmingStart=now;setState('confirming');}}
-  else if(state==='confirming'){if(!loud){confirmingStart=null;setState('break');}else if((now-confirmingStart)/1000>=CONFIRM_PLAY_SEC){confirmingStart=null;setState('playing');}}
+  else if(state==='confirming'){if(!loud){confirmingStart=null;setState('break');}else if((now-confirmingStart)/1000>=CONFIRM_PLAY_SEC){practiceSeconds+=CONFIRM_PLAY_SEC;confirmingStart=null;setState('playing');}}
   animFrame=requestAnimationFrame(loopAudio);
 }
 
