@@ -161,7 +161,7 @@
     <div class="topbar-title">Practice Timer</div>
     <div class="topbar-sub" id="topSub">Misura il tuo tempo di studio reale</div>
   </div>
-  <div class="topbar-brand">gli strumenti di SuonARte <span style="opacity:.5">v1.00</span></div>
+  <div class="topbar-brand" style="line-height:1.4">gli strumenti di SuonARte<br><span style="opacity:.5;font-style:normal">v1.02</span></div>
   <div class="lang-selector">
     <button class="lang-btn active" onclick="setLang('it')">IT</button>
     <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -286,6 +286,7 @@ const TRANSLATIONS = {
 <p>▶️ <b>Ripresa automatica</b><br>Quando riprendi a suonare, l'app aspetta 4 secondi per confermare, poi riprende il timer pratica.</p>
 <p>🎻 <b>Profili per strumento</b><br>Ogni strumento usa un profilo audio ottimizzato per riconoscere meglio il suo suono specifico.</p>
 <p>🎚 <b>Sensibilità</b><br>Usa lo slider per adattare la soglia all'ambiente. La linea rossa mostra la soglia in tempo reale.</p>
+<p>💡 <b>Schermo sempre acceso</b><br>Durante la sessione l'app impedisce allo schermo di spegnersi. Su <b>iPhone/iPad</b> questa funzione non è supportata da Safari: lo schermo potrebbe andare in standby. Per evitarlo, aumenta il timeout schermo nelle Impostazioni di iOS.</p>
 <p>📲 <b>Installazione come app</b><br>Questa è una PWA: puoi installarla sulla schermata home.<br><b>Android:</b> menu ⋮ → "Aggiungi a schermata Home"<br><b>iPhone:</b> condividi ⬆ → "Aggiungi a schermata Home"</p>`,
     instrNames:{flauto:'Flauto',violino:'Violino',piano:'Pianoforte',chitarra:'Chitarra',tromba:'Tromba',batteria:'Batteria'}
   },
@@ -321,6 +322,7 @@ const TRANSLATIONS = {
 <p>▶️ <b>Automatic resume</b><br>When you resume playing, the app waits 4 seconds to confirm, then resumes the practice timer.</p>
 <p>🎻 <b>Instrument profiles</b><br>Each instrument uses an optimized audio profile to better recognize its specific sound.</p>
 <p>🎚 <b>Sensitivity</b><br>Use the slider to adapt the threshold to your environment. The red line shows the threshold in real time.</p>
+<p>💡 <b>Screen always on</b><br>During a session the app prevents the screen from turning off. On <b>iPhone/iPad</b> this feature is not supported by Safari: the screen may go to standby. To avoid this, increase the screen timeout in iOS Settings.</p>
 <p>📲 <b>Install as app</b><br>This is a PWA: you can install it on your home screen.<br><b>Android:</b> menu ⋮ → "Add to Home Screen"<br><b>iPhone:</b> share ⬆ → "Add to Home Screen"</p>`,
     instrNames:{flauto:'Flute',violino:'Violin',piano:'Piano',chitarra:'Guitar',tromba:'Trumpet',batteria:'Drums'}
   },
@@ -356,6 +358,7 @@ const TRANSLATIONS = {
 <p>▶️ <b>Automatische Fortsetzung</b><br>Wenn du wieder anfängst zu spielen, wartet die App 4 Sekunden zur Bestätigung, dann läuft der Timer weiter.</p>
 <p>🎻 <b>Instrumentenprofile</b><br>Jedes Instrument verwendet ein optimiertes Audioprofil.</p>
 <p>🎚 <b>Empfindlichkeit</b><br>Passe die Schwelle mit dem Schieberegler an deine Umgebung an.</p>
+<p>💡 <b>Bildschirm immer an</b><br>Während einer Sitzung verhindert die App, dass der Bildschirm ausgeht. Auf <b>iPhone/iPad</b> wird diese Funktion von Safari nicht unterstützt: der Bildschirm kann in den Standby gehen. Um dies zu vermeiden, erhöhe das Bildschirm-Timeout in den iOS-Einstellungen.</p>
 <p>📲 <b>Als App installieren</b><br>Dies ist eine PWA: du kannst sie auf dem Startbildschirm installieren.<br><b>Android:</b> Menü ⋮ → "Zum Startbildschirm"<br><b>iPhone:</b> Teilen ⬆ → "Zum Home-Bildschirm"</p>`,
     instrNames:{flauto:'Flöte',violino:'Geige',piano:'Klavier',chitarra:'Gitarre',tromba:'Trompete',batteria:'Schlagzeug'}
   }
@@ -384,6 +387,7 @@ let state='idle';
 let practiceSeconds=0,breakSeconds=0;
 let silenceSince=null,confirmingStart=null;
 let tickInterval=null,smoothScore=0;
+let wakeLock=null;
 
 // Calibrazione adattiva rumore di fondo
 let noiseFloor=0;
@@ -576,6 +580,10 @@ async function toggleMic(){
     analyser.fftSize=2048;
     analyser.smoothingTimeConstant=activeInstrument.smoothing;
     audioCtx.createMediaStreamSource(stream).connect(analyser);
+    // Impedisce lo standby dello schermo
+    if('wakeLock' in navigator){
+      try{ wakeLock = await navigator.wakeLock.request('screen'); }catch(e){}
+    }
     micActive=true;practiceSeconds=0;breakSeconds=0;
     silenceSince=null;confirmingStart=null;smoothScore=0;
     noiseFloor=0;noiseCalibrated=false;noiseFrames=[];calibrating=true;
@@ -593,6 +601,7 @@ function stopMic(){
   if(animFrame){cancelAnimationFrame(animFrame);animFrame=null;}
   if(tickInterval){clearInterval(tickInterval);tickInterval=null;}
   micActive=false;
+  if(wakeLock){ wakeLock.release(); wakeLock=null; }
   document.getElementById('micBtnText').textContent=t().micStart;
   document.getElementById('micBtn').classList.remove('active');
   document.getElementById('meterFill').style.width='0%';
@@ -687,6 +696,11 @@ function renderSessions(){
   }).join('');
 }
 
+document.addEventListener('visibilitychange', async ()=>{
+  if(wakeLock !== null && document.visibilityState === 'visible' && micActive){
+    try{ wakeLock = await navigator.wakeLock.request('screen'); }catch(e){}
+  }
+});
 setLang('it');
 onSensChange(3);
 buildGrid();updateThreshMarker();updateStats();renderSessions();updateInfoModal();
